@@ -164,7 +164,13 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
     val res = curNode match {
       // Case 1: we have reached a source => return result and continue traversing (expand into parents)
       case x if sources.contains(x.asInstanceOf[NodeType]) =>
-        if (x.isInstanceOf[MethodParameterIn]) {
+        if (
+          x.isInstanceOf[MethodParameterIn] &&
+          SyntacticSanitizer.sinkSanitizedByConditionalCheck(task.sink, x.asInstanceOf[MethodParameterIn].name)
+        ) {
+          // Syntactic sanitizer is effective for this source parameter and sink, so prune as sanitized.
+          Vector(ReachableByResult(task.taskStack, path, partial = true))
+        } else if (x.isInstanceOf[MethodParameterIn]) {
           Vector(
             ReachableByResult(task.taskStack, path),
             ReachableByResult(task.taskStack, path, partial = true)
@@ -191,6 +197,16 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
         createPartialResultForOutputArgOrRet()
 
       case _: MethodRef => createPartialResultForOutputArgOrRet()
+
+      // Case 5: effective syntactic sanitizer (e.g. if (len > MAX) return;) — condition references a source
+      // and the "bad" branch does not reach the sink, so treat as sanitized and prune.
+      case expr: Expression
+          if SyntacticSanitizer.isEffectiveConditionalSanitizer(
+            expr,
+            task.sink,
+            sources.collect { case p: MethodParameterIn => p.name }.toSet
+          ) =>
+        createPartialResultForOutputArgOrRet()
 
       // All other cases: expand into parents
       case _ =>

@@ -292,7 +292,22 @@ object Engine {
   }
 
   def semanticsForCall(call: Call)(implicit semantics: Semantics): List[FlowSemantic] = {
-    Engine.methodsForCall(call).flatMap(semantics.forMethod)
+    Engine.methodsForCall(call).flatMap { method =>
+      semantics.forMethod(method).flatMap(semantic => adjustedSemanticForMethod(semantic, method))
+    }
+  }
+
+  /** Empty semantic mappings are commonly used to model sanitizer methods. For buffer-overflow workflows, we only trust
+    * those sanitizers if the internal implementation validates as bounded (e.g., clamp-style).
+    */
+  private def adjustedSemanticForMethod(semantic: FlowSemantic, method: Method): Option[FlowSemantic] = {
+    val isSanitizerSemantic = semantic.mappings.isEmpty
+    if (!isSanitizerSemantic || BufferOverflowSanitizerValidator.isValidatedSanitizer(method)) {
+      Some(semantic)
+    } else {
+      // If a modeled sanitizer fails validation, fall back to conservative taint propagation arg1 -> return.
+      Some(FlowSemantic.from(method.fullName, List((1, -1))))
+    }
   }
 
 }

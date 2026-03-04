@@ -86,6 +86,20 @@ object DefaultSemantics {
     F("atol", List((1, 1), (1, -1))),
     F("calloc", List((1, -1), (2, -1))),
     F("ceil", List((1, 1), (1, 1))),
+    F("clamp", List()), /* sanitizer: param 0 does not propagate taint to return */
+    FlowSemantic.from(".*:clamp:.*", List(), regex = true),
+    F("clamp_if", List()), /* modeled sanitizer validated via AST/CFG checks */
+    FlowSemantic.from(".*:clamp_if:.*", List(), regex = true),
+    F("clamp_early", List()), /* modeled sanitizer validated via AST/CFG checks */
+    FlowSemantic.from(".*:clamp_early:.*", List(), regex = true),
+    F("clamp_vuln", List()), /* modeled sanitizer: validator must verify implementation before trusting */
+    FlowSemantic.from(".*:clamp_vuln:.*", List(), regex = true),
+    F("clamp_if_vuln", List()), /* intentionally unsafe; validator should reject */
+    FlowSemantic.from(".*:clamp_if_vuln:.*", List(), regex = true),
+    F("clamp_many", List()), /* modeled sanitizer validated via CFG + assignment effects */
+    FlowSemantic.from(".*:clamp_many:.*", List(), regex = true),
+    F("clamp_many_vuln", List()), /* assignment-based but unsafe; validator should reject */
+    FlowSemantic.from(".*:clamp_many_vuln:.*", List(), regex = true),
     F("clock", List.empty[(Int, Int)]),
     F("ctime", List((1, -1))),
     F("ctime64", List((1, -1))),

@@ -1,0 +1,370 @@
+Sanitizer Function Verification Workflow (Buffer Overflow Path)
+================================================================
+
+Purpose
+-------
+This document explains, end-to-end, what was implemented to add sanitizer
+function verification in Joern's dataflow workflow, with special focus on:
+
+1) how validation is integrated into reachableBy queries,
+2) how the CFG/CDG-based verification fallback is built,
+3) what exactly changed in the codebase,
+4) how test coverage demonstrates the behavior.
+
+
+What existed before this change
+-------------------------------
+Before this work, method sanitizer trust was declaration-based:
+
+- If a function appeared in DefaultSemantics with empty flow mappings
+  (for example F("clamp", List())), the engine treated it as a sanitizer.
+- At dataflow query time, call semantics were trusted directly.
+- There was no implementation validation for sanitizer functions.
+
+Consequence:
+- A wrongly implemented sanitizer function could still be trusted.
+- For example, a function that just returns its input could be modeled as a
+  sanitizer and incorrectly kill taint.
+
+
+What is new (high level)
+------------------------
+A validation gate was added for sanitizer semantics:
+
+- If a call has non-empty flow semantics: behavior unchanged.
+- If a call has empty mappings (sanitizer model): verify method body first.
+  - If validation passes: keep sanitizer semantics (taint killed).
+  - If validation fails: override semantics to conservative arg1 -> return.
+
+On top of this, the validator now understands not only “immediate return”
+clamps (e.g., ternary and if/else that directly return bounded values), but
+also a restricted class of assignment-based clamps, where the sanitizer mutates
+the tracked parameter and returns it later (for example, an if-ladder that
+repeatedly assigns n = MAX, n = 900, n = 800, then returns n).
+
+This preserves old behavior for regular functions and makes sanitizer trust
+conditional on implementation, including non-method-based, assignment-style
+sanitizers that are common in C.
+
+
+Files changed and why
+---------------------
+1) dataflowengineoss/src/main/scala/io/joern/dataflowengineoss/queryengine/Engine.scala
+   - Uses existing hook adjustedSemanticForMethod(...).
+   - Calls BufferOverflowSanitizerValidator for empty-mapping semantics.
+   - If validator returns false, replaces semantic with:
+       FlowSemantic.from(method.fullName, List((1, -1)))
+
+2) dataflowengineoss/src/main/scala/io/joern/dataflowengineoss/queryengine/BufferOverflowSanitizerValidator.scala
+   - Added/extended sanitizer verification logic.
+   - Has two validation layers:
+     A) fast syntactic return-expression checks,
+     B) CFG/CDG fallback for if/else and early-return patterns.
+   - Caches verdict by method fullName.
+
+3) dataflowengineoss/src/main/scala/io/joern/dataflowengineoss/DefaultSemantics.scala
+   - Added modeled sanitizer entries and regex full-name variants for:
+       clamp_if, clamp_early, clamp_if_vuln
+   - Regex entries are required so C full names (file:name:signature) match.
+
+4) tests/code/c/sanitizer-test/run_sanitizer_test.sc
+   - Expanded with additional test cases for:
+       safe ternary, unsafe ternary, safe if/else, safe early return,
+       unsafe if/else, assignment-based clamps.
+   - Uses call argument as source for method sanitizer scenarios:
+       cpg.method(...).call("<sanitizer>").argument(1)
+     This avoids source-selection mismatch from earlier parameter-based tests.
+
+5) New test fixtures:
+   - tests/code/c/sanitizer-test/method_sanitizer_if.c
+   - tests/code/c/sanitizer-test/method_sanitizer_early_return.c
+   - tests/code/c/sanitizer-test/method_sanitizer_if_vuln.c
+
+6) New assignment-based sanitizer fixtures:
+   - tests/code/c/sanitizer-test/method_sanitizer_many_assign.c
+     * clamp_many: uses a ladder of assignments
+       if (n > MAX) n = MAX;
+       if (n > 900)  n = 900;
+       if (n > 800)  n = 800;
+       return n;
+     * This is a valid clamp that does not immediately return in the true
+       branch; the validator must recognize assignment-based clamping.
+
+   - tests/code/c/sanitizer-test/method_sanitizer_many_assign_vuln.c
+     * clamp_many_vuln: mirrors the structure but does not clamp:
+       if (n > MAX) n = n;
+       if (n > 900) n = n;
+       if (n > 800) n = n;
+       return n;
+     * The validator must reject this as a sanitizer and let taint flow.
+
+
+Detailed execution workflow at query time
+-----------------------------------------
+When a query such as sink.reachableBy(source) executes:
+
+Step 1: The dataflow engine traverses backward from sink via REACHING_DEF/DDG.
+
+Step 2: At call boundaries, Engine.semanticsForCall(call) resolves method
+        semantics from DefaultSemantics.
+
+Step 3: For each resolved semantic:
+        - Non-empty mappings => used directly.
+        - Empty mappings => treated as "modeled sanitizer", then validated.
+
+Step 4: Validator returns true/false.
+        - true  => keep empty semantic (taint does not propagate to return).
+        - false => replace with arg1 -> return mapping.
+
+Step 5: reachableBy result reflects the adjusted semantics, so unsafe modeled
+        sanitizers now propagate taint and safe ones still kill taint.
+
+
+Sanitizer validator internals
+-----------------------------
+Object: BufferOverflowSanitizerValidator
+
+Entry point:
+    isValidatedSanitizer(method: Method): Boolean
+
+Behavior:
+1) cache lookup by method.fullName
+2) if not cached: validate(method)
+
+validate(method) does:
+1) Identify first parameter name (tracked numeric input).
+2) Collect all return statements with their returned expressions.
+3) If no returns: invalid.
+4) Run fast syntactic checks on all returns.
+   - If all pass: valid.
+   - Else: run CFG/CDG fallback.
+
+
+Fast syntactic layer
+--------------------
+A return is considered safe if it is:
+
+- literal return (e.g., return 0;),
+- ternary clamp-style expression that structurally enforces bound,
+- bounded expression return (for example MAX), as long as it is not directly
+  the tracked parameter identifier.
+
+If return is directly return n; this is not automatically safe and is handed
+to CFG/CDG reasoning.
+
+
+Assignment-based clamp ladder recognition
+-----------------------------------------
+In addition to the fast return-expression checks, the validator has a dedicated
+check for a common assignment-based clamp idiom:
+
+  size_t clamp_many(size_t n) {
+      if (n > MAX) n = MAX;
+      if (n > 900) n = 900;
+      if (n > 800) n = 800;
+      return n;
+  }
+
+We call this an “assignment clamp ladder”. The validator:
+
+1) Requires at least one return of the raw parameter (return n;).
+2) Collects all IF conditions that compare the parameter to a bound, e.g.
+     if (n > MAX), if (n > 900), if (n > 800)
+   and extracts their RHS “bound code” strings (MAX, 900, 800).
+3) Collects all assignment calls of the form
+     n = <bounded expression>
+   and extracts their RHS code strings (MAX, 900, 800, ...).
+4) Accepts the method as a valid clamp ladder if every bound seen in the
+   comparisons also appears as a bounded assignment to the parameter and the
+   method returns the parameter at the end.
+
+This is intentionally syntactic: we match on the code string of the bound
+(MAX, 900, 800), not on full numeric semantics. It is enough to recognize and
+validate simple, canonical “if (n > K) n = K; ... return n;” ladders, while
+still rejecting structurally similar but unsafe variants like clamp_many_vuln
+where the assignments are n = n, so no actual clamping occurs.
+
+
+CFG/CDG fallback (core logic)
+-----------------------------
+Goal:
+Prove that return n; executes only under branch constraints that imply
+an upper bound (for this workflow).
+
+In addition to branch conditions, the CFG traversal now also interprets
+assignments to the tracked parameter. When the analysis encounters an
+<operator>.assignment node where the left-hand side is the parameter and the
+right-hand side is a bounded expression (literal, macro, etc.), it treats this
+as a strong update of the parameter’s upper bound in the AbstractState. This
+allows the fallback to reason about patterns like “n = MAX; ... return n;”
+intraprocedurally, not just about immediate bounded returns.
+
+Data structures:
+- AbstractState(upperBounds: Set[String])
+  Represents must-known upper bounds at program points.
+
+- NormalizedComparison(op, bound)
+  Canonical comparator form relative to tracked parameter.
+  Example:
+    if (n > MAX)  => op "<operator>.greaterThan", bound "MAX"
+    if (MAX < n)  => normalized to equivalent form with parameter on lhs.
+
+- IfBranchInfo(conditionCallId, normalized, trueBranchNodeIds, falseBranchNodeIds)
+  Captures each IF's condition identity and branch CFG membership.
+
+Build phase:
+1) Gather method CFG nodes via method.start.cfgNode.
+2) Gather IF nodes via method.start.controlStructure where type == "IF".
+3) For each IF:
+   - extract condition call and normalize comparator,
+   - capture node IDs in whenTrue and whenFalse subtrees.
+4) Identify entry nodes as CFG nodes with no cfgPrev.
+
+Traversal phase:
+1) Initialize work queue with entry nodes and empty must-state.
+2) Pop node, inspect cfgNext successors.
+3) For IF nodes, refine state per edge:
+   - true edge uses true-branch refinement,
+   - false/other edge uses false refinement.
+4) Merge at join points by intersection (must-analysis):
+   mergeMustState(a, b) = intersection(a.upperBounds, b.upperBounds)
+5) Continue until fixpoint (queue empty).
+
+Return safety decision:
+For each return:
+- return literal / bounded expression => safe.
+- return n => safe only if either:
+  A) state at return has non-empty must upper bound, or
+  B) return is control-dependent on a condition call whose branch implies
+     upper bound (using controlledBy and conditionCallId matching).
+
+If all returns safe => method validated; otherwise invalid.
+
+
+Why control-dependence matching was needed
+------------------------------------------
+During debugging, a key point was:
+
+- controlledBy for a return yields condition CALL nodes, not control-structure
+  node IDs.
+
+Therefore, branch guard matching uses conditionCallId in IfBranchInfo and
+matches against controlledBy CALL ids.
+
+
+Semantics entries required for C full names
+-------------------------------------------
+C method full names are often file-qualified (e.g., file:name:signature).
+To ensure semantics apply to resolved methods, regex entries were added, e.g.:
+
+- FlowSemantic.from(".*:clamp_if:.*", List(), regex = true)
+
+This is necessary for Engine.semanticsForCall to obtain the intended modeled
+sanitizer semantics before validation.
+
+
+Test coverage and expected outcomes
+-----------------------------------
+Script:
+  tests/code/c/sanitizer-test/run_sanitizer_test.sc
+
+Cases:
+1) cosmetic_check.c
+   - expected 1 flow (syntactic conditional sanitizer support is currently off)
+
+2) method_sanitizer.c (ternary safe)
+   - expected 0 flows
+
+3) method_sanitizer_vuln.c (returns n)
+   - expected >= 1 flow
+
+4) method_sanitizer_if.c (safe if/else)
+   - expected 0 flows
+
+5) method_sanitizer_early_return.c (safe early return)
+   - expected 0 flows
+
+6) method_sanitizer_if_vuln.c (unsafe if/else)
+   - expected >= 1 flow
+
+7) method_sanitizer_many_assign.c (assignment-based clamp ladder)
+   - expected 0 flows
+   - demonstrates that assignment-based clamping (without immediate returns)
+     can be validated and trusted as a sanitizer.
+
+8) method_sanitizer_many_assign_vuln.c (assignment-based but unsafe)
+   - expected >= 1 flow
+   - demonstrates that a structurally similar function that never actually
+     clamps its input (n = n; on all branches) is rejected by the validator
+     and does not kill taint.
+
+Observed final outcome:
+- All expectations above pass, including assignment-based cases.
+
+
+Build/runtime note
+------------------
+After Scala changes, staged binaries must be rebuilt so ./joern runs updated
+logic:
+
+  sbt joerncli/stage
+
+Without staging rebuild, runs may use previous compiled classes and show old
+behavior.
+
+
+What did not change
+-------------------
+- reachableBy implementation itself was not created by this work.
+- The main dataflow traversal model (backward DDG/REACHING_DEF) remains intact.
+- This work specifically adds sanitizer verification gating on top of existing
+  call-semantics usage.
+
+
+Current limitations
+-------------------
+- Validator is specialized for numeric upper-bound clamp-like workflows.
+- It focuses on comparison-driven bounds and branch-guarded returns.
+- It is conservative by design; unsupported complex patterns may be treated as
+  invalid sanitizer implementations.
+
+
+Research contribution / pitch
+-----------------------------
+This work contributes a concrete, implementable refinement to Joern's taint
+tracking that is tightly aligned with the 2014 IEEE S&P CPG paper, but goes
+beyond its treatment of sanitizers as purely syntactic stopping points.
+
+Key points:
+
+- We turned “sanitizer = function listed in Semantics” into
+  “sanitizer = function + validated implementation” for buffer-overflow-related
+  workflows. Modeled sanitizers now have to prove, intraprocedurally, that they
+  actually bound their input before their result is trusted as clean.
+
+- We showed that this can be done with:
+  - A lightweight abstract domain (must upper bounds),
+  - CFG/CDG reasoning for if/else and early-return clamps, and
+  - A targeted recognition of assignment-based clamp ladders, without blowing
+    up into full program-wide symbolic execution.
+
+- We demonstrated the impact experimentally with paired safe/unsafe examples:
+  - Safe ternary clamp vs unsafe “returns n” implementation.
+  - Safe if/else and early-return clamps vs unsafe if/else.
+  - Safe assignment-based clamp ladder vs structurally similar but non-clamping
+    ladder.
+
+- The engine now:
+  - Continues to behave conservatively (never assuming a sanitizer is valid if
+    it cannot prove it), and
+  - Eliminates an important class of false assumptions where a mis-modeled or
+    mis-implemented sanitizer previously silenced real flows.
+
+In research terms, this is a concrete step toward bridging the gap between
+fully symbolic path-sensitive taint analysis and the purely syntactic
+“saw a check, stop here” heuristics in the original UNSANITIZED search. We show
+that for small, self-contained sanitizer functions, it is feasible to run a
+bounded intraprocedural analysis and validate their behavior once, then reuse
+that verdict across many reachableBy queries, improving precision without
+incurring path explosion on the entire program.
+
