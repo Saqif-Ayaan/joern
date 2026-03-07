@@ -3,6 +3,8 @@ package io.joern.dataflowengineoss.queryengine
 import io.shiftleft.codepropertygraph.generated.nodes.*
 import io.shiftleft.semanticcpg.language.*
 
+import java.nio.charset.StandardCharsets
+import java.security.MessageDigest
 import scala.collection.mutable
 
 /** Lightweight validator for numeric sanitizer methods used in buffer-overflow workflows.
@@ -11,8 +13,11 @@ import scala.collection.mutable
   */
 object BufferOverflowSanitizerValidator {
 
+  val ValidatorVersion = "clamp-stage3-v1"
+
   private val cache = mutable.HashMap.empty[String, Boolean]
 
+  private val CastOperator        = "<operator>.cast"
   private val ConditionalOperator = "<operator>.conditional"
   private val AssignmentOperator  = "<operator>.assignment"
   private val ComparatorOperators = Set(
@@ -23,7 +28,7 @@ object BufferOverflowSanitizerValidator {
   )
   private val IfControlStructure = "IF"
 
-  private case class AbstractState(upperBounds: Set[String])
+  private case class AbstractState(mustBounded: Boolean, upperBounds: Set[String])
   private case class NormalizedComparison(op: String, bound: String)
   private case class IfBranchInfo(
     conditionCallId: Long,
@@ -34,6 +39,22 @@ object BufferOverflowSanitizerValidator {
 
   def isValidatedSanitizer(method: Method): Boolean = synchronized {
     cache.getOrElseUpdate(method.fullName, validate(method))
+  }
+
+  def validatorVersion: String = ValidatorVersion
+
+  def methodFingerprint(method: Method): String = {
+    val cfgCodes = method.start.cfgNode.l
+      .sortBy(_.id)
+      .map(node => Option(node.code).map(_.trim).getOrElse(""))
+      .mkString("\u001f")
+    sha256Hex(
+      s"${method.fullName}\u001e${Option(method.signature).getOrElse("")}\u001e$cfgCodes"
+    )
+  }
+
+  def clearCacheForTests(): Unit = synchronized {
+    cache.clear()
   }
 
   private def validate(method: Method): Boolean = {
@@ -48,21 +69,39 @@ object BufferOverflowSanitizerValidator {
       return false
     }
 
-    val allBoundedSyntactically = returns.forall { case (_, expr) => isBoundedReturn(expr, paramName) }
-    val assignmentLadder        = isAssignmentClampLadder(method, paramName, returns)
-    val cfgValidated            = if (!allBoundedSyntactically && !assignmentLadder) validateViaCfg(method, paramName, returns) else false
-    allBoundedSyntactically || assignmentLadder || cfgValidated
+    validateViaCfg(method, paramName, returns)
   }
 
   private def returnExpression(ret: Return): Option[Expression] =
     ret.astChildren.collectAll[Expression].headOption
 
-  private def isBoundedReturn(expr: Expression, paramName: String): Boolean = expr match {
-    case _: Literal                                    => true
-    case call: Call if call.name == ConditionalOperator => isClampStyleConditional(call, paramName)
-    case _ if boundCode(expr).nonEmpty && !isIdentifierNamed(expr, paramName) => true
-    case id: Identifier if id.name == paramName        => false
-    case _                                             => false
+  private def trimmedCode(expr: Expression): Option[String] =
+    Option(expr.code).map(_.trim).filter(_.nonEmpty)
+
+  private def isLikelyConstantIdentifier(token: String): Boolean =
+    token.matches("[A-Z_][A-Z0-9_]*")
+
+  /** Returns a bound token only for strict constant-like bound expressions.
+    *
+    * To keep false positives low, we intentionally reject calls/arithmetic/unknown expressions here.
+    */
+  private def strictBoundToken(expr: Expression, paramName: String): Option[String] = expr match {
+    case lit: Literal =>
+      trimmedCode(lit)
+    case id: Identifier if id.name.nonEmpty && id.name != paramName =>
+      val tokenOpt          = trimmedCode(id)
+      val isConstantLike    = tokenOpt.exists(isLikelyConstantIdentifier)
+      val referencesProgramValue =
+        id.refsTo.collectAll[Local].nonEmpty || id.refsTo.collectAll[MethodParameterIn].nonEmpty
+      if (isConstantLike && !referencesProgramValue) tokenOpt else None
+    case call: Call if call.name == CastOperator =>
+      Option(call.argument(2)).collect { case e: Expression => e }.flatMap(arg => strictBoundToken(arg, paramName))
+    case call: Call
+        if call.argument.isEmpty && isLikelyConstantIdentifier(call.name) && trimmedCode(call).contains(call.name) =>
+      // Some frontends emit macro-like constants (e.g., MAX) as zero-arg calls.
+      Some(call.name)
+    case _ =>
+      None
   }
 
   private def isClampStyleConditional(call: Call, paramName: String): Boolean = {
@@ -84,21 +123,12 @@ object BufferOverflowSanitizerValidator {
     if (!isIdentifierNamed(paramExpr, paramName) || !ComparatorOperators.contains(cond.name)) {
       return false
     }
-    val boundedCodeOpt = boundCode(boundedExpr)
-    if (boundedCodeOpt.isEmpty) {
+    val boundedTokenOpt = strictBoundToken(boundedExpr, paramName)
+    if (boundedTokenOpt.isEmpty) {
       return false
     }
-    val boundedCode = boundedCodeOpt.get
-
-    val lhs = Option(cond.argument(1))
-    val rhs = Option(cond.argument(2))
-    (lhs, rhs) match {
-      case (Some(l), Some(r)) =>
-        (isIdentifierNamed(l, paramName) && expressionCode(r).contains(boundedCode)) ||
-        (isIdentifierNamed(r, paramName) && expressionCode(l).contains(boundedCode))
-      case _ =>
-        false
-    }
+    val boundedToken = boundedTokenOpt.get
+    normalizedComparison(cond, paramName).exists(_.bound == boundedToken)
   }
 
   private def isIdentifierNamed(expr: Expression, name: String): Boolean = expr match {
@@ -106,78 +136,17 @@ object BufferOverflowSanitizerValidator {
     case _              => false
   }
 
-  private def boundCode(expr: Expression): Option[String] = expr match {
-    case lit: Literal                        => Option(lit.code).filter(_.nonEmpty)
-    case id: Identifier if id.name.nonEmpty => Option(id.code).filter(_.nonEmpty)
-    case call: Call                          => Option(call.code).filter(_.nonEmpty)
-    case _                                   => None
-  }
-
-  private def expressionCode(expr: Expression): Option[String] =
-    Option(expr.code).filter(_.nonEmpty)
-
-  private def isAssignmentClampLadder(method: Method, paramName: String, returns: List[(Return, Expression)]): Boolean = {
-    val hasParamReturn = returns.exists { case (_, expr) =>
-      expr match {
-        case id: Identifier => id.name == paramName
-        case _              => false
-      }
-    }
-    if (!hasParamReturn) {
-      return false
-    }
-
-    val ifNodes = method.start.controlStructure.filter(_.controlStructureType == IfControlStructure).l
-    if (ifNodes.isEmpty) {
-      return false
-    }
-
-    val condBounds = ifNodes.flatMap { ifNode =>
-      ifNode.start.condition.headOption.collect { case c: Call => c }.flatMap { cond =>
-        if (ComparatorOperators.contains(cond.name)) {
-          Option(cond.argument(2)).flatMap(arg => Option(arg.code).map(_.trim).filter(_.nonEmpty))
-        } else {
-          None
-        }
-      }
-    }.toSet
-    if (condBounds.isEmpty) {
-      return false
-    }
-
-    val assignmentBounds = method.ast.isCall
-      .name(AssignmentOperator)
-      .flatMap(assignCall => assignmentBoundForParam(assignCall, paramName))
-      .toSet
-
-    condBounds.subsetOf(assignmentBounds)
-  }
-
-  private def assignmentBoundForParam(assignCall: Call, paramName: String): Option[String] = {
-    val lhsOpt = Option(assignCall.argument(1)).collect { case e: Expression => e }
-    val rhsOpt = Option(assignCall.argument(2)).collect { case e: Expression => e }
-    (lhsOpt, rhsOpt) match {
-      case (Some(lhs), Some(rhs)) if isIdentifierNamed(lhs, paramName) =>
-        boundCode(rhs).map(_.trim).filter(_.nonEmpty)
-      case _ =>
-        None
-    }
-  }
-
-  private def isParamAssignedToBound(assignCall: Call, paramName: String, bound: String): Boolean = {
-    assignmentBoundForParam(assignCall, paramName).contains(bound)
-  }
-
-  /** CFG-based fallback validator for non-ternary sanitizer implementations.
+  /** CFG-based validator for clamp-like numeric sanitizers.
     *
-    * We propagate MUST upper-bound constraints (e.g., n <= MAX) across CFG edges. For returns that directly return the
-    * parameter, we require at least one guaranteed upper bound on all reaching paths.
+    * We propagate a MUST-bounded fact for the tracked parameter across CFG edges. A sanitizer is validated iff all
+    * returns are proven safe under this abstraction.
     */
   private def validateViaCfg(method: Method, paramName: String, returns: List[(Return, Expression)]): Boolean = {
     val cfgNodes = method.start.cfgNode.l
     if (cfgNodes.isEmpty) {
       return false
     }
+    val cfgNodeIds = cfgNodes.map(_.id).toSet
 
     val ifInfosById = method.start.controlStructure
       .filter(_.controlStructureType == IfControlStructure)
@@ -185,7 +154,12 @@ object BufferOverflowSanitizerValidator {
       .toMap
     val ifInfosByConditionCallId = ifInfosById.values.map(info => info.conditionCallId -> info).toMap
 
-    val entryNodes = cfgNodes.filter(_.cfgPrev.isEmpty)
+    // `method.start.cfgNode` can omit some predecessor nodes (e.g., parameters), so
+    // treat nodes whose predecessors are outside this slice as graph roots as well.
+    val entryNodes = cfgNodes.filter { node =>
+      val prevIds = node.cfgPrev.id.l
+      prevIds.isEmpty || prevIds.forall(prevId => !cfgNodeIds.contains(prevId))
+    }
     if (entryNodes.isEmpty) {
       return false
     }
@@ -194,13 +168,13 @@ object BufferOverflowSanitizerValidator {
     val workQueue = mutable.Queue.empty[CfgNode]
 
     entryNodes.foreach { entry =>
-      inStates.update(entry.id, AbstractState(Set.empty))
+      inStates.update(entry.id, AbstractState(mustBounded = false, upperBounds = Set.empty))
       workQueue.enqueue(entry)
     }
 
     while (workQueue.nonEmpty) {
       val current          = workQueue.dequeue()
-      val currentInState   = inStates.getOrElse(current.id, AbstractState(Set.empty))
+      val currentInState   = inStates.getOrElse(current.id, AbstractState(mustBounded = false, upperBounds = Set.empty))
       val currentOutState  = refinedStateAtNode(current, currentInState, paramName)
       val successors   = current.cfgNext.l
 
@@ -226,7 +200,7 @@ object BufferOverflowSanitizerValidator {
     }
 
     returns.forall { case (ret, expr) =>
-      val stateAtReturn = inStates.getOrElse(ret.id, AbstractState(Set.empty))
+      val stateAtReturn = inStates.getOrElse(ret.id, AbstractState(mustBounded = false, upperBounds = Set.empty))
       isSafeReturnGivenState(ret, expr, paramName, stateAtReturn, ifInfosByConditionCallId)
     }
   }
@@ -278,16 +252,16 @@ object BufferOverflowSanitizerValidator {
       case (Some(lhs: Expression), Some(rhs)) if isIdentifierNamed(lhs, paramName) =>
         rhs match {
           case id: Identifier if id.name == paramName =>
-            // Identity assignment preserves current upper-bound facts.
+            // Identity assignment preserves current facts.
             state
           case _ =>
-            boundCode(rhs) match {
-              case Some(bound) if !isIdentifierNamed(rhs, paramName) =>
-                // Strong update: parameter is overwritten by a bounded expression.
-                state.copy(upperBounds = Set(bound))
+            strictBoundToken(rhs, paramName) match {
+              case Some(bound) =>
+                // Strong update: parameter is overwritten by a strict bound.
+                state.copy(mustBounded = true, upperBounds = Set(bound))
               case _ =>
                 // Unknown overwrite of the tracked parameter: kill existing upper-bound facts.
-                state.copy(upperBounds = Set.empty)
+                state.copy(mustBounded = false, upperBounds = Set.empty)
             }
         }
       case _ =>
@@ -295,8 +269,10 @@ object BufferOverflowSanitizerValidator {
     }
   }
 
-  private def mergeMustState(a: AbstractState, b: AbstractState): AbstractState =
-    AbstractState(a.upperBounds.intersect(b.upperBounds))
+  private def mergeMustState(a: AbstractState, b: AbstractState): AbstractState = {
+    val must = a.mustBounded && b.mustBounded
+    AbstractState(must, if (must) a.upperBounds.intersect(b.upperBounds) else Set.empty)
+  }
 
   private def isSafeReturnGivenState(
     ret: Return,
@@ -307,9 +283,9 @@ object BufferOverflowSanitizerValidator {
   ): Boolean = expr match {
     case _: Literal                                    => true
     case call: Call if call.name == ConditionalOperator => isClampStyleConditional(call, paramName)
-    case _ if boundCode(expr).nonEmpty && !isIdentifierNamed(expr, paramName) => true
+    case _ if strictBoundToken(expr, paramName).nonEmpty => true
     case id: Identifier if id.name == paramName =>
-      state.upperBounds.nonEmpty || isUpperBoundGuardedReturn(ret, ifInfosByConditionCallId)
+      state.mustBounded || isUpperBoundGuardedReturn(ret, ifInfosByConditionCallId)
     case _                                             => false
   }
 
@@ -360,9 +336,9 @@ object BufferOverflowSanitizerValidator {
     val rhs = Option(cond.argument(2))
     (lhs, rhs) match {
       case (Some(l: Expression), Some(r: Expression)) if isIdentifierNamed(l, paramName) =>
-        boundCode(r).map(bound => NormalizedComparison(normalizedOperator(cond.name, paramOnLhs = true), bound))
+        strictBoundToken(r, paramName).map(bound => NormalizedComparison(normalizedOperator(cond.name, paramOnLhs = true), bound))
       case (Some(l: Expression), Some(r: Expression)) if isIdentifierNamed(r, paramName) =>
-        boundCode(l).map(bound => NormalizedComparison(normalizedOperator(cond.name, paramOnLhs = false), bound))
+        strictBoundToken(l, paramName).map(bound => NormalizedComparison(normalizedOperator(cond.name, paramOnLhs = false), bound))
       case _ =>
         None
     }
@@ -393,10 +369,14 @@ object BufferOverflowSanitizerValidator {
       case _                                                     => false
     }
     if (impliesUpperBound) {
-      state.copy(upperBounds = state.upperBounds + comparison.bound)
+      state.copy(mustBounded = true, upperBounds = state.upperBounds + comparison.bound)
     } else {
       state
     }
   }
-}
 
+  private def sha256Hex(input: String): String = {
+    val digest = MessageDigest.getInstance("SHA-256").digest(input.getBytes(StandardCharsets.UTF_8))
+    digest.map(byte => f"${byte & 0xff}%02x").mkString
+  }
+}

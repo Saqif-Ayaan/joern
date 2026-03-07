@@ -100,6 +100,12 @@ object DefaultSemantics {
     FlowSemantic.from(".*:clamp_many:.*", List(), regex = true),
     F("clamp_many_vuln", List()), /* assignment-based but unsafe; validator should reject */
     FlowSemantic.from(".*:clamp_many_vuln:.*", List(), regex = true),
+    F("clamp_join_safe", List()), /* valid branch-join clamp; stage-3 validator should accept */
+    FlowSemantic.from(".*:clamp_join_safe:.*", List(), regex = true),
+    F("clamp_call_assign_vuln", List()), /* unsafe: assignment from function call should be rejected */
+    FlowSemantic.from(".*:clamp_call_assign_vuln:.*", List(), regex = true),
+    F("clamp_return_call_vuln", List()), /* unsafe: returning call result should be rejected */
+    FlowSemantic.from(".*:clamp_return_call_vuln:.*", List(), regex = true),
     F("clock", List.empty[(Int, Int)]),
     F("ctime", List((1, -1))),
     F("ctime64", List((1, -1))),

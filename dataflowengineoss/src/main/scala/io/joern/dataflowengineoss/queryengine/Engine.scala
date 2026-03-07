@@ -197,13 +197,15 @@ object Engine {
     *   the path that has been expanded to reach the `curNode`
     */
   def expandIn(curNode: CfgNode, path: Vector[PathElement], callSiteStack: List[Call] = List())(implicit
-    semantics: Semantics
+    semantics: Semantics,
+    config: EngineConfig = EngineConfig()
   ): Vector[PathElement] = {
     ddgInE(curNode, path, callSiteStack).flatMap(x => elemForEdge(x, callSiteStack))
   }
 
   private def elemForEdge(e: Edge, callSiteStack: List[Call] = List())(implicit
-    semantics: Semantics
+    semantics: Semantics,
+    config: EngineConfig = EngineConfig()
   ): Option[PathElement] = {
     val curNode = e.dst.asInstanceOf[CfgNode]
     val parNode = e.src.asInstanceOf[CfgNode]
@@ -240,7 +242,10 @@ object Engine {
     }
   }
 
-  def isOutputArgOfInternalMethod(arg: Expression)(implicit semantics: Semantics): Boolean = {
+  def isOutputArgOfInternalMethod(arg: Expression)(implicit
+    semantics: Semantics,
+    config: EngineConfig = EngineConfig()
+  ): Boolean = {
     arg.inCall.l match {
       case List(call) =>
         methodsForCall(call).internal.isNotStub.nonEmpty && semanticsForCall(call).isEmpty
@@ -287,13 +292,26 @@ object Engine {
   def isCallToInternalMethod(call: Call): Boolean = {
     methodsForCall(call).internal.nonEmpty
   }
-  def isCallToInternalMethodWithoutSemantic(call: Call)(implicit semantics: Semantics): Boolean = {
+  def isCallToInternalMethodWithoutSemantic(call: Call)(implicit
+    semantics: Semantics,
+    config: EngineConfig = EngineConfig()
+  ): Boolean = {
     isCallToInternalMethod(call) && semanticsForCall(call).isEmpty
   }
 
-  def semanticsForCall(call: Call)(implicit semantics: Semantics): List[FlowSemantic] = {
-    Engine.methodsForCall(call).flatMap { method =>
+  def semanticsForCall(call: Call)(implicit
+    semantics: Semantics,
+    config: EngineConfig = EngineConfig()
+  ): List[FlowSemantic] = {
+    val calledMethods = Engine.methodsForCall(call)
+    val explicitSemantics = calledMethods.flatMap { method =>
       semantics.forMethod(method).flatMap(semantic => adjustedSemanticForMethod(semantic, method))
+    }
+
+    if (explicitSemantics.nonEmpty || !config.enableClampSanitizerAutoDiscovery) {
+      explicitSemantics
+    } else {
+      calledMethods.flatMap(method => ClampSanitizerDiscovery.semanticForUnmodeledMethod(method, config))
     }
   }
 
@@ -331,19 +349,26 @@ case class EngineContext(semantics: Semantics = DefaultSemantics(), config: Engi
   *   max limit to determine all corresponding arguments at all call sites to the method
   * @param maxOutputArgsExpansion
   *   max limit on number arguments for which tasks will be created for unresolved arguments
+  * @param enableClampSanitizerAutoDiscovery
+  *   when enabled, discover clamp sanitizers for unmodeled internal producer-path methods
+  * @param clampSanitizerDecisionCachePath
+  *   optional path to a JSON sidecar file for persisted sanitizer decisions
   */
 case class EngineConfig(
   var maxCallDepth: Int = 4,
   initialTable: Option[mutable.Map[TaskFingerprint, Vector[ReachableByResult]]] = None,
   shareCacheBetweenTasks: Boolean = true,
   maxArgsToAllow: Int = 1000,
-  maxOutputArgsExpansion: Int = 1000
+  maxOutputArgsExpansion: Int = 1000,
+  enableClampSanitizerAutoDiscovery: Boolean = false,
+  clampSanitizerDecisionCachePath: Option[String] = None
 )
 
 /** Tracks various performance characteristics of the query engine.
   */
 enum QueryEngineStatistic {
   case PATH_CACHE_HITS, PATH_CACHE_MISSES
+  case CLAMP_DISCOVERY_CANDIDATES, CLAMP_DISCOVERY_VALIDATED, CLAMP_DISCOVERY_REJECTED, CLAMP_DISCOVERY_CACHE_HITS
 }
 
 object QueryEngineStatistics {

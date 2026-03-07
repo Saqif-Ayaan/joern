@@ -1,6 +1,7 @@
 package io.joern.dataflowengineoss.passes.reachingdef
 
 import io.joern.dataflowengineoss.language.*
+import io.joern.dataflowengineoss.queryengine.EngineConfig
 import io.joern.dataflowengineoss.queryengine.Engine.{isOutputArgOfInternalMethod, semanticsForCall}
 import io.joern.dataflowengineoss.semanticsloader.{FlowPath, FlowSemantic, ParameterNode, Semantics}
 import io.joern.dataflowengineoss.semanticsloader.FlowPath.{FlowMapping, PassThroughMapping}
@@ -11,7 +12,10 @@ object EdgeValidator {
 
   /** Determines whether the edge from `parentNode`to `childNode` is valid, according to the given semantics.
     */
-  def isValidEdge(childNode: CfgNode, parentNode: CfgNode)(implicit semantics: Semantics): Boolean =
+  def isValidEdge(childNode: CfgNode, parentNode: CfgNode)(implicit
+    semantics: Semantics,
+    config: EngineConfig = EngineConfig()
+  ): Boolean =
     (childNode, parentNode) match {
       case (childNode: Expression, parentNode)
           if isCallRetval(parentNode) || !isValidEdgeToExpression(parentNode, childNode) =>
@@ -30,7 +34,10 @@ object EdgeValidator {
       case (_, parentNode)                                 => !isCallRetval(parentNode)
     }
 
-  private def isValidEdgeToExpression(parNode: CfgNode, curNode: Expression)(implicit semantics: Semantics): Boolean =
+  private def isValidEdgeToExpression(parNode: CfgNode, curNode: Expression)(implicit
+    semantics: Semantics,
+    config: EngineConfig = EngineConfig()
+  ): Boolean =
     parNode match {
       case parentNode: Expression =>
         val sameCallSite = parentNode.inCall.l == curNode.start.inCall.l
@@ -42,7 +49,10 @@ object EdgeValidator {
 
   /** Is it a CALL for which semantics exist but don't taint its return value?
     */
-  private def isCallRetval(parentNode: StoredNode)(implicit semantics: Semantics): Boolean =
+  private def isCallRetval(parentNode: StoredNode)(implicit
+    semantics: Semantics,
+    config: EngineConfig = EngineConfig()
+  ): Boolean =
     parentNode match {
       case call: Call => semanticsForCall(call).exists(!explicitlyFlowsToReturnValue(_))
       case _          => false

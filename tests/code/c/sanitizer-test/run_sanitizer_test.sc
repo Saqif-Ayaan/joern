@@ -2,6 +2,7 @@
 // Or from repo root: joern --script tests/code/c/sanitizer-test/run_sanitizer_test.sc --param inputPath=./tests/code/c/sanitizer-test
 
 @main def main(inputPath: String) = {
+  import io.joern.dataflowengineoss.queryengine.{EngineConfig, EngineContext}
   importCode(inputPath)
 
   // --- cosmetic_check: syntactic sanitizer support is currently disabled, so expected flow is 1.
@@ -44,15 +45,51 @@
   val methodManyAssignVulnSink   = cpg.method("with_method_sanitizer_many_assign_vuln").call("memcpy").argument(3)
   val methodManyAssignVulnFlows  = methodManyAssignVulnSink.reachableBy(methodManyAssignVulnSource).size
 
+  // --- method_sanitizer_join_safe.c (safe join-based clamp): expected 0 flows.
+  val methodJoinSafeSource = cpg.method("with_method_sanitizer_join_safe").call("clamp_join_safe").argument(1)
+  val methodJoinSafeSink   = cpg.method("with_method_sanitizer_join_safe").call("memcpy").argument(3)
+  val methodJoinSafeFlows  = methodJoinSafeSink.reachableBy(methodJoinSafeSource).size
+
+  // --- method_sanitizer_call_assign_vuln.c (unsafe call assignment): expected >= 1 flow.
+  val methodCallAssignVulnSource = cpg.method("with_method_sanitizer_call_assign_vuln").call("clamp_call_assign_vuln").argument(1)
+  val methodCallAssignVulnSink   = cpg.method("with_method_sanitizer_call_assign_vuln").call("memcpy").argument(3)
+  val methodCallAssignVulnFlows  = methodCallAssignVulnSink.reachableBy(methodCallAssignVulnSource).size
+
+  // --- method_sanitizer_return_call_vuln.c (unsafe return call): expected >= 1 flow.
+  val methodReturnCallVulnSource = cpg.method("with_method_sanitizer_return_call_vuln").call("clamp_return_call_vuln").argument(1)
+  val methodReturnCallVulnSink   = cpg.method("with_method_sanitizer_return_call_vuln").call("memcpy").argument(3)
+  val methodReturnCallVulnFlows  = methodReturnCallVulnSink.reachableBy(methodReturnCallVulnSource).size
+
+  // --- unmodeled sanitizer pair used to validate dynamic auto-discovery flow.
+  val unmodeledSafeSource = cpg.method("with_method_sanitizer_unmodeled_safe").call("clamp_unmodeled_safe").argument(1).l
+  val unmodeledSafeSink   = cpg.method("with_method_sanitizer_unmodeled_safe").call("memcpy").argument(3).l
+  val unmodeledVulnSource = cpg.method("with_method_sanitizer_unmodeled_vuln").call("clamp_unmodeled_vuln").argument(1).l
+  val unmodeledVulnSink   = cpg.method("with_method_sanitizer_unmodeled_vuln").call("memcpy").argument(3).l
+
+  val baselineContext  = EngineContext()
+  val discoveryContext = EngineContext(config = EngineConfig(enableClampSanitizerAutoDiscovery = true))
+
+  val unmodeledSafeBaselineFlows  = unmodeledSafeSink.reachableBy(unmodeledSafeSource)(using baselineContext).size
+  val unmodeledSafeDiscoveryFlows = unmodeledSafeSink.reachableBy(unmodeledSafeSource)(using discoveryContext).size
+  val unmodeledVulnBaselineFlows  = unmodeledVulnSink.reachableBy(unmodeledVulnSource)(using baselineContext).size
+  val unmodeledVulnDiscoveryFlows = unmodeledVulnSink.reachableBy(unmodeledVulnSource)(using discoveryContext).size
+
   println("=== Sanitizer test results ===")
-  println(s"cosmetic_check (vulnerable): flows from len to memcpy(3) = $cosmeticFlows  (syntactic sanitizer disabled → expected 1)")
-  println(s"method_sanitizer.c (with_method_sanitizer): flows from len to memcpy(3) = $methodFlows  (validated safe clamp → expected 0)")
-  println(s"method_sanitizer_vuln.c (with_method_sanitizer_vuln): flows from len to memcpy(3) = $methodVulnFlows  (invalid clamp implementation → expected >= 1)")
-  println(s"method_sanitizer_if.c (with_method_sanitizer_if): flows from len to memcpy(3) = $methodIfFlows  (validated safe if/else clamp → expected 0)")
-  println(s"method_sanitizer_early_return.c (with_method_sanitizer_early): flows from len to memcpy(3) = $methodEarlyFlows  (validated safe early-return clamp → expected 0)")
-  println(s"method_sanitizer_if_vuln.c (with_method_sanitizer_if_vuln): flows from len to memcpy(3) = $methodIfVulnFlows  (invalid if/else implementation → expected >= 1)")
-  println(s"method_sanitizer_many_assign.c (with_method_sanitizer_many_assign): flows from len to memcpy(3) = $methodManyAssignFlows  (validated assignment-based clamp → expected 0)")
-  println(s"method_sanitizer_many_assign_vuln.c (with_method_sanitizer_many_assign_vuln): flows from len to memcpy(3) = $methodManyAssignVulnFlows  (invalid assignment-based implementation → expected >= 1)")
+  println(s"cosmetic_check (vulnerable): flows from len to memcpy(3) = $cosmeticFlows  (syntactic sanitizer disabled -> expected 1)")
+  println(s"method_sanitizer.c (with_method_sanitizer): flows from len to memcpy(3) = $methodFlows  (validated safe clamp -> expected 0)")
+  println(s"method_sanitizer_vuln.c (with_method_sanitizer_vuln): flows from len to memcpy(3) = $methodVulnFlows  (invalid clamp implementation -> expected >= 1)")
+  println(s"method_sanitizer_if.c (with_method_sanitizer_if): flows from len to memcpy(3) = $methodIfFlows  (validated safe if/else clamp -> expected 0)")
+  println(s"method_sanitizer_early_return.c (with_method_sanitizer_early): flows from len to memcpy(3) = $methodEarlyFlows  (validated safe early-return clamp -> expected 0)")
+  println(s"method_sanitizer_if_vuln.c (with_method_sanitizer_if_vuln): flows from len to memcpy(3) = $methodIfVulnFlows  (invalid if/else implementation -> expected >= 1)")
+  println(s"method_sanitizer_many_assign.c (with_method_sanitizer_many_assign): flows from len to memcpy(3) = $methodManyAssignFlows  (validated assignment-based clamp -> expected 0)")
+  println(s"method_sanitizer_many_assign_vuln.c (with_method_sanitizer_many_assign_vuln): flows from len to memcpy(3) = $methodManyAssignVulnFlows  (invalid assignment-based implementation -> expected >= 1)")
+  println(s"method_sanitizer_join_safe.c (with_method_sanitizer_join_safe): flows from len to memcpy(3) = $methodJoinSafeFlows  (validated join-based clamp -> expected 0)")
+  println(s"method_sanitizer_call_assign_vuln.c (with_method_sanitizer_call_assign_vuln): flows from len to memcpy(3) = $methodCallAssignVulnFlows  (assignment from call is unsafe -> expected >= 1)")
+  println(s"method_sanitizer_return_call_vuln.c (with_method_sanitizer_return_call_vuln): flows from len to memcpy(3) = $methodReturnCallVulnFlows  (return call result is unsafe -> expected >= 1)")
+  println(s"method_sanitizer_unmodeled_safe.c baseline: flows from len to memcpy(3) = $unmodeledSafeBaselineFlows  (feature flag off -> expected >= 1)")
+  println(s"method_sanitizer_unmodeled_safe.c discovery: flows from len to memcpy(3) = $unmodeledSafeDiscoveryFlows  (feature flag on -> expected 0)")
+  println(s"method_sanitizer_unmodeled_vuln.c baseline: flows from len to memcpy(3) = $unmodeledVulnBaselineFlows  (feature flag off -> expected >= 1)")
+  println(s"method_sanitizer_unmodeled_vuln.c discovery: flows from len to memcpy(3) = $unmodeledVulnDiscoveryFlows  (feature flag on -> expected >= 1)")
   println("")
   if (cosmeticFlows == 1) {
     println("PASS cosmetic_check: flow detected as expected without syntactic sanitizer support.")
@@ -93,5 +130,40 @@
     println("PASS method_sanitizer_many_assign_vuln: tainted flow detected (unsafe assignment-based sanitizer not trusted).")
   } else {
     println("FAIL method_sanitizer_many_assign_vuln: no flow found; unsafe assignment-based sanitizer should not be trusted.")
+  }
+  if (methodJoinSafeFlows == 0) {
+    println("PASS method_sanitizer_join_safe: no tainted flow to sink (join-based clamp validated).")
+  } else {
+    println("FAIL method_sanitizer_join_safe: flow(s) found; join-based safe clamp should be trusted.")
+  }
+  if (methodCallAssignVulnFlows >= 1) {
+    println("PASS method_sanitizer_call_assign_vuln: tainted flow detected (call assignment sanitizer not trusted).")
+  } else {
+    println("FAIL method_sanitizer_call_assign_vuln: no flow found; call-assignment sanitizer should not be trusted.")
+  }
+  if (methodReturnCallVulnFlows >= 1) {
+    println("PASS method_sanitizer_return_call_vuln: tainted flow detected (return-call sanitizer not trusted).")
+  } else {
+    println("FAIL method_sanitizer_return_call_vuln: no flow found; return-call sanitizer should not be trusted.")
+  }
+  if (unmodeledSafeBaselineFlows >= 1) {
+    println("PASS method_sanitizer_unmodeled_safe baseline: no pre-model means tainted flow is still present.")
+  } else {
+    println("FAIL method_sanitizer_unmodeled_safe baseline: expected flow without auto-discovery.")
+  }
+  if (unmodeledSafeDiscoveryFlows == 0) {
+    println("PASS method_sanitizer_unmodeled_safe discovery: auto-discovery recognized clamp sanitizer.")
+  } else {
+    println("FAIL method_sanitizer_unmodeled_safe discovery: expected sanitizer discovery to remove flow.")
+  }
+  if (unmodeledVulnBaselineFlows >= 1) {
+    println("PASS method_sanitizer_unmodeled_vuln baseline: unsafe unmodeled method keeps taint flow.")
+  } else {
+    println("FAIL method_sanitizer_unmodeled_vuln baseline: expected taint flow for unsafe method.")
+  }
+  if (unmodeledVulnDiscoveryFlows >= 1) {
+    println("PASS method_sanitizer_unmodeled_vuln discovery: auto-discovery rejected unsafe implementation.")
+  } else {
+    println("FAIL method_sanitizer_unmodeled_vuln discovery: unsafe method should not be auto-discovered.")
   }
 }

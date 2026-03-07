@@ -23,6 +23,7 @@ import scala.collection.mutable
 class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[CfgNode]) extends Callable[TaskSummary] {
 
   import Engine._
+  private implicit val engineConfig: EngineConfig = context.config
 
   /** Entry point of callable. First checks if the maximum call depth has been exceeded, in which case an empty result
     * list is returned. Otherwise, the task is solved and its results are returned.
@@ -198,7 +199,7 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
 
       case _: MethodRef => createPartialResultForOutputArgOrRet()
 
-      // Case 5: effective syntactic sanitizer (e.g. if (len > MAX) return;) — condition references a source
+      // Case 5: effective syntactic sanitizer (e.g. if (len > MAX) return;) - condition references a source
       // and the "bad" branch does not reach the sink, so treat as sanitized and prune.
       case expr: Expression
           if SyntacticSanitizer.isEffectiveConditionalSanitizer(
