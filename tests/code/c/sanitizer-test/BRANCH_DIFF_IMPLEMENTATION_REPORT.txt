@@ -1,0 +1,202 @@
+Clamp Sanitizer Branch Diff Report (Implementation and Exact Changes)
+Date: 2026-03-07
+
+Scope and baseline
+- Baseline used for this report: refs/heads/master...HEAD
+- Current branch: sanitizer-verification-flow-2
+- Commits ahead of master:
+  1) 5d33c6338 - "added a way to validate clamp sanitizers for buffer overflows"
+  2) 6db485b8a - "added new function validation"
+- Branch delta counts vs master:
+  - Added files (A): 21
+  - Modified files (M): 4
+  - Deleted files (D): 0
+  - Total changed files: 25
+
+High-level summary of what was implemented
+- Added a strict clamp-style sanitizer validator using CFG/state propagation.
+- Added opt-in sanitizer auto-discovery for unmodeled internal producer-path methods.
+- Integrated discovery into semantic resolution path.
+- Added sidecar decision persistence for discovery decisions.
+- Added syntactic sanitizer detection for effective conditional checks.
+- Added a dedicated C fixture/test harness for sanitizer behavior verification.
+
+Exact changed files and what changed
+
+1) A 2014-ieeesp.pdf
+- Added a binary PDF artifact.
+- Why: likely reference material for the branch work.
+
+2) M dataflowengineoss/src/main/scala/io/joern/dataflowengineoss/DefaultSemantics.scala
+- Added modeled sanitizer semantics (empty mappings + regex entries) for:
+  - clamp
+  - clamp_if
+  - clamp_early
+  - clamp_vuln
+  - clamp_if_vuln
+  - clamp_many
+  - clamp_many_vuln
+  - clamp_join_safe
+  - clamp_call_assign_vuln
+  - clamp_return_call_vuln
+- Why: make these methods explicitly modeled so sanitizer validation gate can enforce trust decisions.
+
+3) M dataflowengineoss/src/main/scala/io/joern/dataflowengineoss/passes/reachingdef/EdgeValidator.scala
+- Added EngineConfig as implicit parameter to:
+  - isValidEdge
+  - isValidEdgeToExpression
+  - isCallRetval
+- Why: ensure edge validation uses the same runtime config-aware semantics resolution path as query engine traversal.
+
+4) A dataflowengineoss/src/main/scala/io/joern/dataflowengineoss/queryengine/BufferOverflowSanitizerValidator.scala
+- Added new validator object with:
+  - cache for per-method validation results
+  - stage-3 CFG validation engine
+  - strict bound token extraction to lower false positives
+  - branch-sensitive upper-bound reasoning from IF comparisons
+  - assignment transfer functions for tracked parameter
+  - return safety checks (literal, strict constant, conditional clamp, bounded identifier)
+  - methodFingerprint(method) helper (SHA-256 on method identity/signature/CFG code)
+  - validatorVersion
+- Why: provide authoritative clamp validator used for modeled sanitizer gating and discovery decisions.
+
+5) A dataflowengineoss/src/main/scala/io/joern/dataflowengineoss/queryengine/ClampSanitizerDiscovery.scala
+- Added discovery component with:
+  - candidate gating (internal, non-stub, has params, has return, numeric-like return, excludes operators/ctors/dtors)
+  - in-memory decision cache keyed by (methodFullName, fingerprint)
+  - sidecar cache model and persistence (JSON via SanitizerDecision/SanitizerDecisionStore)
+  - load-on-first-use sidecar import and validatorVersion filtering
+  - atomic write-through on updates
+  - QueryEngineStatistics counters (candidates, validated, rejected, cache hits)
+  - synthetic empty sanitizer semantic creation for validated methods
+- Why: auto-identify previously unmodeled clamp sanitizers without editing DefaultSemantics.
+
+6) M dataflowengineoss/src/main/scala/io/joern/dataflowengineoss/queryengine/Engine.scala
+- Added EngineConfig plumbing into semantic-related helper methods.
+- Updated semanticsForCall:
+  - resolve explicit semantics first
+  - adjust modeled sanitizer semantics through validator gate
+  - fallback to ClampSanitizerDiscovery when explicit semantics are absent and discovery is enabled
+- Added adjustedSemanticForMethod:
+  - if semantic mappings are empty (sanitizer model), validate method implementation
+  - if invalid, downgrade to conservative arg1 -> return flow
+- Extended EngineConfig:
+  - enableClampSanitizerAutoDiscovery: Boolean
+  - clampSanitizerDecisionCachePath: Option[String]
+- Extended QueryEngineStatistic with discovery counters.
+- Why: central integration point for enforcement and discovery behavior.
+
+7) A dataflowengineoss/src/main/scala/io/joern/dataflowengineoss/queryengine/SyntacticSanitizer.scala
+- Added syntactic sanitizer detection:
+  - detects effective IF checks that actually prevent sink reachability from bad branch
+  - supports sinkSanitizedByConditionalCheck helper
+- Why: prune obvious sanitized flows early when conditional checks are effective.
+
+8) M dataflowengineoss/src/main/scala/io/joern/dataflowengineoss/queryengine/TaskSolver.scala
+- Added implicit engineConfig from context to ensure traversal uses config-aware engine methods.
+- Added source-parameter case pruning with sinkSanitizedByConditionalCheck.
+- Added expression-level effective conditional sanitizer pruning.
+- Why: reduce false positives and avoid expanding clearly sanitized paths.
+
+9) A joern-cli/frontends/c2cpg/src/test/scala/io/joern/c2cpg/dataflow/SanitizerStage3ValidationTests.scala
+- Added dedicated integration test suite for:
+  - accepted safe clamps
+  - rejected unsafe lookalikes
+  - discovery on/off behavior
+  - candidate filter behavior
+  - sidecar persistence and cache hit behavior
+  - fingerprint invalidation behavior
+- Why: prove stage-3 logic and discovery flow end-to-end.
+
+10) A tests/code/c/sanitizer-test/README_SANITIZER_TEST.md
+- Added fixture suite documentation.
+- Why: explain how to run and interpret sanitizer tests.
+
+11) A tests/code/c/sanitizer-test/SANITIZER_VERIFICATION_WORKFLOW.txt
+- Added workflow write-up for sanitizer verification process.
+- Why: process documentation for implementation and research framing.
+
+12) A tests/code/c/sanitizer-test/cosmetic_check.c
+- Added fixture representing cosmetic/non-effective conditional checks.
+- Why: ensure syntactic sanitizer logic does not over-trust cosmetic checks.
+
+13) A tests/code/c/sanitizer-test/method_sanitizer.c
+- Added baseline safe clamp fixture.
+- Why: positive sanitizer case.
+
+14) A tests/code/c/sanitizer-test/method_sanitizer_call_assign_vuln.c
+- Added unsafe lookalike using assignment from a function call.
+- Why: negative case for stage-3 strictness.
+
+15) A tests/code/c/sanitizer-test/method_sanitizer_early_return.c
+- Added safe early-return clamp fixture.
+- Why: positive control-flow variant.
+
+16) A tests/code/c/sanitizer-test/method_sanitizer_if.c
+- Added safe IF/ELSE clamp fixture.
+- Why: positive branch-handling variant.
+
+17) A tests/code/c/sanitizer-test/method_sanitizer_if_vuln.c
+- Added unsafe IF/ELSE lookalike.
+- Why: negative branch-handling variant.
+
+18) A tests/code/c/sanitizer-test/method_sanitizer_join_safe.c
+- Added safe branch-join clamp fixture.
+- Why: positive join-case variant.
+
+19) A tests/code/c/sanitizer-test/method_sanitizer_many_assign.c
+- Added safe multi-assignment clamp fixture.
+- Why: positive assignment-heavy variant.
+
+20) A tests/code/c/sanitizer-test/method_sanitizer_many_assign_vuln.c
+- Added unsafe multi-assignment lookalike.
+- Why: negative assignment-heavy variant.
+
+21) A tests/code/c/sanitizer-test/method_sanitizer_return_call_vuln.c
+- Added unsafe return-call lookalike.
+- Why: negative case for call passthrough returns.
+
+22) A tests/code/c/sanitizer-test/method_sanitizer_unmodeled_safe.c
+- Added safe clamp intentionally unmodeled.
+- Why: verify discovery can identify valid unmodeled sanitizer.
+
+23) A tests/code/c/sanitizer-test/method_sanitizer_unmodeled_vuln.c
+- Added unsafe unmodeled method.
+- Why: verify discovery rejects invalid unmodeled candidate.
+
+24) A tests/code/c/sanitizer-test/method_sanitizer_vuln.c
+- Added unsafe baseline clamp lookalike.
+- Why: negative case for modeled validator gating.
+
+25) A tests/code/c/sanitizer-test/run_sanitizer_test.sc
+- Added script-driven scenario matrix over all fixtures.
+- Includes baseline/discovery runs and pass/fail expectations.
+- Why: simple reproducible workflow and regression harness.
+
+Current uncommitted changes on top of branch HEAD (working tree)
+- These are not part of the 25-file master...HEAD committed diff yet.
+
+1) M dataflowengineoss/src/main/scala/io/joern/dataflowengineoss/queryengine/Engine.scala
+- Added modeled sanitizer policy enum:
+  - ENFORCE, WARN, TRUST
+- Added EngineConfig field:
+  - modeledSanitizerValidationPolicy
+- Updated adjustedSemanticForMethod to branch by policy:
+  - ENFORCE: current downgrade behavior on fail
+  - WARN: run validator, keep sanitizer semantic, log warning, increment warning counter
+  - TRUST: keep sanitizer semantic, skip gating downgrade
+- Added QueryEngineStatistic:
+  - MODELED_SANITIZER_VALIDATION_WARNINGS
+
+2) M joern-cli/frontends/c2cpg/src/test/scala/io/joern/c2cpg/dataflow/SanitizerStage3ValidationTests.scala
+- Added tests asserting WARN and TRUST behavior for modeled invalid sanitizer.
+
+3) M tests/code/c/sanitizer-test/run_sanitizer_test.sc
+- Added WARN/TRUST contexts and output checks for modeled invalid sanitizer scenario.
+
+Why these uncommitted changes were made
+- They introduce policy flexibility for user-modeled sanitizers:
+  - strict security mode (ENFORCE)
+  - audit mode (WARN)
+  - user-trust mode (TRUST)
+

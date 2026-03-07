@@ -188,6 +188,8 @@ class Engine(context: EngineContext) {
 
 object Engine {
 
+  private val logger: Logger = LoggerFactory.getLogger(this.getClass)
+
   /** Traverse from a node to incoming DDG nodes, taking into account semantics. This method is exposed via the `ddgIn`
     * step, but is also called by the engine internally by the `TaskSolver`.
     *
@@ -305,7 +307,7 @@ object Engine {
   ): List[FlowSemantic] = {
     val calledMethods = Engine.methodsForCall(call)
     val explicitSemantics = calledMethods.flatMap { method =>
-      semantics.forMethod(method).flatMap(semantic => adjustedSemanticForMethod(semantic, method))
+      semantics.forMethod(method).flatMap(semantic => adjustedSemanticForMethod(semantic, method, config))
     }
 
     if (explicitSemantics.nonEmpty || !config.enableClampSanitizerAutoDiscovery) {
@@ -318,13 +320,35 @@ object Engine {
   /** Empty semantic mappings are commonly used to model sanitizer methods. For buffer-overflow workflows, we only trust
     * those sanitizers if the internal implementation validates as bounded (e.g., clamp-style).
     */
-  private def adjustedSemanticForMethod(semantic: FlowSemantic, method: Method): Option[FlowSemantic] = {
+  private def adjustedSemanticForMethod(
+    semantic: FlowSemantic,
+    method: Method,
+    config: EngineConfig
+  ): Option[FlowSemantic] = {
     val isSanitizerSemantic = semantic.mappings.isEmpty
-    if (!isSanitizerSemantic || BufferOverflowSanitizerValidator.isValidatedSanitizer(method)) {
+    if (!isSanitizerSemantic) {
       Some(semantic)
     } else {
-      // If a modeled sanitizer fails validation, fall back to conservative taint propagation arg1 -> return.
-      Some(FlowSemantic.from(method.fullName, List((1, -1))))
+      config.modeledSanitizerValidationPolicy match {
+        case ModeledSanitizerValidationPolicy.TRUST =>
+          Some(semantic)
+        case ModeledSanitizerValidationPolicy.WARN =>
+          val validated = BufferOverflowSanitizerValidator.isValidatedSanitizer(method)
+          if (!validated) {
+            QueryEngineStatistics.incrementBy(QueryEngineStatistic.MODELED_SANITIZER_VALIDATION_WARNINGS, 1L)
+            logger.warn(
+              s"Modeled sanitizer `${method.fullName}` failed validation, but sanitizer semantics are kept due WARN policy."
+            )
+          }
+          Some(semantic)
+        case ModeledSanitizerValidationPolicy.ENFORCE =>
+          if (BufferOverflowSanitizerValidator.isValidatedSanitizer(method)) {
+            Some(semantic)
+          } else {
+            // If a modeled sanitizer fails validation, fall back to conservative taint propagation arg1 -> return.
+            Some(FlowSemantic.from(method.fullName, List((1, -1))))
+          }
+      }
     }
   }
 
@@ -353,6 +377,9 @@ case class EngineContext(semantics: Semantics = DefaultSemantics(), config: Engi
   *   when enabled, discover clamp sanitizers for unmodeled internal producer-path methods
   * @param clampSanitizerDecisionCachePath
   *   optional path to a JSON sidecar file for persisted sanitizer decisions
+  * @param modeledSanitizerValidationPolicy
+  *   policy for already-modeled sanitizer semantics: ENFORCE downgrades on validator fail, WARN logs and keeps
+  *   sanitizer semantics, TRUST skips validator checks for modeled sanitizers
   */
 case class EngineConfig(
   var maxCallDepth: Int = 4,
@@ -361,14 +388,20 @@ case class EngineConfig(
   maxArgsToAllow: Int = 1000,
   maxOutputArgsExpansion: Int = 1000,
   enableClampSanitizerAutoDiscovery: Boolean = false,
-  clampSanitizerDecisionCachePath: Option[String] = None
+  clampSanitizerDecisionCachePath: Option[String] = None,
+  modeledSanitizerValidationPolicy: ModeledSanitizerValidationPolicy = ModeledSanitizerValidationPolicy.ENFORCE
 )
+
+enum ModeledSanitizerValidationPolicy {
+  case ENFORCE, WARN, TRUST
+}
 
 /** Tracks various performance characteristics of the query engine.
   */
 enum QueryEngineStatistic {
   case PATH_CACHE_HITS, PATH_CACHE_MISSES
   case CLAMP_DISCOVERY_CANDIDATES, CLAMP_DISCOVERY_VALIDATED, CLAMP_DISCOVERY_REJECTED, CLAMP_DISCOVERY_CACHE_HITS
+  case MODELED_SANITIZER_VALIDATION_WARNINGS
 }
 
 object QueryEngineStatistics {

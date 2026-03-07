@@ -2,7 +2,7 @@
 // Or from repo root: joern --script tests/code/c/sanitizer-test/run_sanitizer_test.sc --param inputPath=./tests/code/c/sanitizer-test
 
 @main def main(inputPath: String) = {
-  import io.joern.dataflowengineoss.queryengine.{EngineConfig, EngineContext}
+  import io.joern.dataflowengineoss.queryengine.{EngineConfig, EngineContext, ModeledSanitizerValidationPolicy}
   importCode(inputPath)
 
   // --- cosmetic_check: syntactic sanitizer support is currently disabled, so expected flow is 1.
@@ -68,11 +68,29 @@
 
   val baselineContext  = EngineContext()
   val discoveryContext = EngineContext(config = EngineConfig(enableClampSanitizerAutoDiscovery = true))
+  val warnContext = EngineContext(
+    config = EngineConfig(modeledSanitizerValidationPolicy = ModeledSanitizerValidationPolicy.WARN)
+  )
+  val trustContext = EngineContext(
+    config = EngineConfig(modeledSanitizerValidationPolicy = ModeledSanitizerValidationPolicy.TRUST)
+  )
 
   val unmodeledSafeBaselineFlows  = unmodeledSafeSink.reachableBy(unmodeledSafeSource)(using baselineContext).size
   val unmodeledSafeDiscoveryFlows = unmodeledSafeSink.reachableBy(unmodeledSafeSource)(using discoveryContext).size
   val unmodeledVulnBaselineFlows  = unmodeledVulnSink.reachableBy(unmodeledVulnSource)(using baselineContext).size
   val unmodeledVulnDiscoveryFlows = unmodeledVulnSink.reachableBy(unmodeledVulnSource)(using discoveryContext).size
+  val modeledCallAssignWarnFlows = cpg.method("with_method_sanitizer_call_assign_vuln")
+    .call("memcpy")
+    .argument(3)
+    .l
+    .reachableBy(cpg.method("with_method_sanitizer_call_assign_vuln").call("clamp_call_assign_vuln").argument(1).l)(using warnContext)
+    .size
+  val modeledCallAssignTrustFlows = cpg.method("with_method_sanitizer_call_assign_vuln")
+    .call("memcpy")
+    .argument(3)
+    .l
+    .reachableBy(cpg.method("with_method_sanitizer_call_assign_vuln").call("clamp_call_assign_vuln").argument(1).l)(using trustContext)
+    .size
 
   println("=== Sanitizer test results ===")
   println(s"cosmetic_check (vulnerable): flows from len to memcpy(3) = $cosmeticFlows  (syntactic sanitizer disabled -> expected 1)")
@@ -90,6 +108,8 @@
   println(s"method_sanitizer_unmodeled_safe.c discovery: flows from len to memcpy(3) = $unmodeledSafeDiscoveryFlows  (feature flag on -> expected 0)")
   println(s"method_sanitizer_unmodeled_vuln.c baseline: flows from len to memcpy(3) = $unmodeledVulnBaselineFlows  (feature flag off -> expected >= 1)")
   println(s"method_sanitizer_unmodeled_vuln.c discovery: flows from len to memcpy(3) = $unmodeledVulnDiscoveryFlows  (feature flag on -> expected >= 1)")
+  println(s"method_sanitizer_call_assign_vuln.c warn policy: flows from len to memcpy(3) = $modeledCallAssignWarnFlows  (warn keeps modeled sanitizer -> expected 0)")
+  println(s"method_sanitizer_call_assign_vuln.c trust policy: flows from len to memcpy(3) = $modeledCallAssignTrustFlows  (trust skips modeled sanitizer validation -> expected 0)")
   println("")
   if (cosmeticFlows == 1) {
     println("PASS cosmetic_check: flow detected as expected without syntactic sanitizer support.")
@@ -165,5 +185,15 @@
     println("PASS method_sanitizer_unmodeled_vuln discovery: auto-discovery rejected unsafe implementation.")
   } else {
     println("FAIL method_sanitizer_unmodeled_vuln discovery: unsafe method should not be auto-discovered.")
+  }
+  if (modeledCallAssignWarnFlows == 0) {
+    println("PASS method_sanitizer_call_assign_vuln warn policy: modeled sanitizer remains trusted.")
+  } else {
+    println("FAIL method_sanitizer_call_assign_vuln warn policy: expected modeled sanitizer to remain trusted.")
+  }
+  if (modeledCallAssignTrustFlows == 0) {
+    println("PASS method_sanitizer_call_assign_vuln trust policy: modeled sanitizer trusted without validator gate.")
+  } else {
+    println("FAIL method_sanitizer_call_assign_vuln trust policy: expected modeled sanitizer trust.")
   }
 }

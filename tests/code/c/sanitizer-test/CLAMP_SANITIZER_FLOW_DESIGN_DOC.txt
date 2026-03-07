@@ -1,0 +1,203 @@
+Clamp Sanitizer Validation and Auto-Discovery Design
+Date: 2026-03-07
+
+1) Problem statement
+- Buffer-overflow dataflow analysis benefits from identifying sanitizer methods that bound size-like values.
+- Relying only on static pre-modeled semantics misses unmodeled project-local sanitizers.
+- Blindly trusting sanitizer models can hide real flows if sanitizer implementations are unsafe.
+
+2) Design goals
+- Validate clamp-style sanitizers with low false-positive risk.
+- Support opt-in discovery of unmodeled internal sanitizers on producer paths.
+- Keep default behavior backward-compatible.
+- Cache decisions efficiently and optionally persist across runs.
+- Preserve conservative behavior for invalid sanitizers in ENFORCE mode.
+
+3) Non-goals
+- General sanitizer inference for all sanitizer families.
+- Global whole-program function classification.
+- Automatic write-back to DefaultSemantics.
+
+4) Core components
+
+Component A: BufferOverflowSanitizerValidator
+- File: dataflowengineoss/.../queryengine/BufferOverflowSanitizerValidator.scala
+- Responsibility:
+  - Decide if a method is a valid clamp-like sanitizer.
+  - Provide method fingerprint helper for discovery cache keys.
+- Strategy:
+  - Track first parameter as target value.
+  - Use CFG fixed-point over abstract state:
+    - mustBounded: Boolean
+    - upperBounds: Set[String]
+  - Refine state by:
+    - IF comparisons involving target parameter
+    - Assignments to target parameter
+  - Accept returns only if safely bounded by state or strict safe expression forms.
+- Strictness controls:
+  - Bound tokens must be constant-like literals/identifiers/casts.
+  - Reject unknown call/arithmetic overwrites as safe bounds.
+
+Component B: ClampSanitizerDiscovery
+- File: dataflowengineoss/.../queryengine/ClampSanitizerDiscovery.scala
+- Responsibility:
+  - Auto-identify unmodeled clamp sanitizers when enabled.
+- Candidate gate:
+  - internal method
+  - non-stub
+  - has parameters
+  - has returns
+  - non-void numeric-like return
+  - excludes operators/ctors/dtors
+- Decision process:
+  1) fingerprint method
+  2) check in-memory decision cache
+  3) check optional sidecar cache
+  4) on miss, run validator
+  5) cache and optionally persist decision
+  6) if true, synthesize empty sanitizer FlowSemantic
+
+Component C: Engine semantic resolution integration
+- File: dataflowengineoss/.../queryengine/Engine.scala
+- Responsibility:
+  - Route each callsite through explicit semantics first, discovery second.
+- Current flow:
+  1) resolve called methods
+  2) collect explicit semantics
+  3) for explicit empty mappings, apply modeled sanitizer validation policy
+  4) if no explicit semantics and discovery enabled, call discovery
+
+Component D: SyntacticSanitizer and solver pruning
+- Files:
+  - dataflowengineoss/.../queryengine/SyntacticSanitizer.scala
+  - dataflowengineoss/.../queryengine/TaskSolver.scala
+- Responsibility:
+  - Fast local pruning for effective conditional checks that truly block sink reachability.
+
+Component E: Reaching-def edge validation config plumbing
+- File: dataflowengineoss/.../passes/reachingdef/EdgeValidator.scala
+- Responsibility:
+  - Ensure edge filtering uses the same config-aware semantics decisions.
+
+5) Data and policy model
+
+5.1 Flow semantic meaning
+- Empty mappings represent sanitizer behavior (no taint propagation through modeled method).
+- Conservative fallback mapping (arg1 -> return) re-enables taint propagation when sanitizer is invalid under ENFORCE.
+
+5.2 Discovery cache model
+- In-memory cache:
+  - key: (methodFullName, fingerprint)
+  - value: isSanitizer Boolean
+- Sidecar cache:
+  - JSON entries with:
+    - methodFullName
+    - fingerprint
+    - isSanitizer
+    - validatorVersion
+    - updatedAtEpochMs
+
+5.3 Modeled sanitizer policy model (current working tree)
+- ENFORCE:
+  - validator fail downgrades modeled sanitizer to conservative flow
+- WARN:
+  - validator runs, warning emitted, sanitizer semantics kept
+- TRUST:
+  - modeled sanitizer semantics kept without downgrade gating
+
+6) End-to-end control flow
+
+6.1 Query path for a callsite
+1) Dataflow traversal reaches a callsite while walking producer chain.
+2) Engine resolves callee method nodes.
+3) Engine asks semantics for explicit model(s).
+4) If explicit model exists:
+   - Non-empty mapping: use as-is.
+   - Empty mapping: apply modeled sanitizer policy.
+5) If explicit model absent:
+   - If discovery off: unresolved behavior as before.
+   - If discovery on: run discovery gate/cache/validator path.
+6) Discovery result:
+   - valid sanitizer: synthesize empty semantic immediately
+   - invalid: no synthetic semantic; continue unresolved behavior
+
+6.2 Modeled sanitizer outcomes by policy
+- ENFORCE:
+  - invalid modeled sanitizer -> taint propagates (finding likely appears)
+- WARN:
+  - invalid modeled sanitizer -> warning only, taint may remain blocked
+- TRUST:
+  - modeled sanitizer always trusted as modeled
+
+6.3 Unmodeled sanitizer outcomes (discovery)
+- Flag off:
+  - no discovery, no synthetic sanitizer
+- Flag on:
+  - valid candidate -> blocked flow
+  - invalid candidate -> flow remains
+
+7) Observability and diagnostics
+- Discovery metrics:
+  - CLAMP_DISCOVERY_CANDIDATES
+  - CLAMP_DISCOVERY_VALIDATED
+  - CLAMP_DISCOVERY_REJECTED
+  - CLAMP_DISCOVERY_CACHE_HITS
+- Modeled policy metric (working tree):
+  - MODELED_SANITIZER_VALIDATION_WARNINGS
+
+8) Testing strategy implemented
+
+8.1 Integration tests
+- File:
+  joern-cli/frontends/c2cpg/src/test/scala/io/joern/c2cpg/dataflow/SanitizerStage3ValidationTests.scala
+- Coverage:
+  - safe vs unsafe modeled clamp patterns
+  - discovery on/off for unmodeled safe/unsafe
+  - candidate filter exclusion
+  - sidecar persistence and cache hit
+  - fingerprint invalidation
+  - WARN/TRUST policy behavior (working tree)
+
+8.2 Script-level workflow tests
+- File:
+  tests/code/c/sanitizer-test/run_sanitizer_test.sc
+- Coverage:
+  - baseline expectations
+  - discovery expectations
+  - policy-mode expectations (working tree)
+
+8.3 Fixture corpus
+- Directory:
+  tests/code/c/sanitizer-test
+- Includes safe and unsafe patterns:
+  - if/else clamp
+  - early return clamp
+  - assignment-heavy clamp
+  - branch join clamp
+  - call-assignment lookalike
+  - return-call lookalike
+  - unmodeled safe/unsafe discovery pair
+
+9) Design tradeoffs
+- Strict validation lowers false positives but can increase false negatives.
+- ENFORCE is security-conservative.
+- WARN/TRUST reduce user-facing false negatives for already-modeled sanitizers.
+- Discovery is intentionally bounded by candidate gating to control cost and risk.
+
+10) Current limitations
+- Validator cache is method-name keyed, while discovery decisions are fingerprint keyed.
+- Clamp-only family is implemented; broader sanitizer classes are out of scope.
+- Sidecar invalid entries are ignored by version/fingerprint mismatch but not garbage-collected proactively.
+
+11) Future improvements
+- Unify validator/discovery caches behind one fingerprint-aware decision service.
+- Add policy-level reporting output in CLI/script summaries.
+- Add corpus-based precision/recall benchmark automation.
+- Add optional sidecar compaction/cleanup pass.
+
+12) Practical usage guidance
+- If prioritizing safety: use ENFORCE.
+- If prioritizing user-modeled sanitizer trust with audit: use WARN.
+- If prioritizing strict user authority over modeled sanitizers: use TRUST.
+- Keep discovery opt-in for controlled rollout and performance characterization.
+

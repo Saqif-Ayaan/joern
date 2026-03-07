@@ -1,7 +1,14 @@
 package io.joern.c2cpg.dataflow
 
 import io.joern.c2cpg.testfixtures.DataFlowCodeToCpgSuite
-import io.joern.dataflowengineoss.queryengine.{ClampSanitizerDiscovery, EngineConfig, EngineContext, QueryEngineStatistic, QueryEngineStatistics}
+import io.joern.dataflowengineoss.queryengine.{
+  ClampSanitizerDiscovery,
+  EngineConfig,
+  EngineContext,
+  ModeledSanitizerValidationPolicy,
+  QueryEngineStatistic,
+  QueryEngineStatistics
+}
 import io.joern.dataflowengineoss.queryengine.BufferOverflowSanitizerValidator
 import io.joern.dataflowengineoss.language.*
 import io.shiftleft.semanticcpg.language.*
@@ -136,6 +143,30 @@ class SanitizerStage3ValidationTests extends DataFlowCodeToCpgSuite {
       val sink =
         cpg.call.name("memcpy").where(_.method.name("with_method_sanitizer_call_assign_vuln")).argument(3)
       sink.reachableBy(source).size.should(be >= 1)
+    }
+
+    "keep modeled sanitizer semantics on validator failure in WARN mode" in {
+      val source =
+        cpg.call.name("clamp_call_assign_vuln").where(_.method.name("with_method_sanitizer_call_assign_vuln")).argument(1)
+      val sink =
+        cpg.call.name("memcpy").where(_.method.name("with_method_sanitizer_call_assign_vuln")).argument(3)
+      val warnContext = EngineContext(
+        config = EngineConfig(modeledSanitizerValidationPolicy = ModeledSanitizerValidationPolicy.WARN)
+      )
+
+      sink.reachableBy(source)(using warnContext).size.shouldBe(0)
+    }
+
+    "trust modeled sanitizer semantics without validator gating in TRUST mode" in {
+      val source =
+        cpg.call.name("clamp_call_assign_vuln").where(_.method.name("with_method_sanitizer_call_assign_vuln")).argument(1)
+      val sink =
+        cpg.call.name("memcpy").where(_.method.name("with_method_sanitizer_call_assign_vuln")).argument(3)
+      val trustContext = EngineContext(
+        config = EngineConfig(modeledSanitizerValidationPolicy = ModeledSanitizerValidationPolicy.TRUST)
+      )
+
+      sink.reachableBy(source)(using trustContext).size.shouldBe(0)
     }
 
     "reject sanitizer lookalike that returns a call result" in {
