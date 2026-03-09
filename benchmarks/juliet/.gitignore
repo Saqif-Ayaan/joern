@@ -1,0 +1,15 @@
+# Generated benchmark artifacts
+outputs/**
+!outputs/.gitkeep
+
+# Generated manifests from local runs (keep template marker files)
+manifests/stage_*.json
+manifests/stage_*.csv
+manifests/stage_*.txt
+manifests/subset_summary.json
+manifests/stage_*_labels.json
+manifests/stage_*_labels.csv
+
+# Python caches
+**/__pycache__/
+*.pyc

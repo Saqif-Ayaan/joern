@@ -1,0 +1,90 @@
+{
+  "case_count": 5,
+  "cases": [
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_01",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_01.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "A",
+      "variant": 1,
+      "variant_parts": [],
+      "variant_text": "01"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_01",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_01.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "A",
+      "variant": 1,
+      "variant_parts": [],
+      "variant_text": "01"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_01",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_01.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "A",
+      "variant": 1,
+      "variant_parts": [],
+      "variant_text": "01"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_01",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_01.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "A",
+      "variant": 1,
+      "variant_parts": [],
+      "variant_text": "01"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_01",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_01.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "A",
+      "variant": 1,
+      "variant_parts": [],
+      "variant_text": "01"
+    }
+  ],
+  "curation_mode": "clamp_transformable_only",
+  "derived_root": "/Users/saqif/Desktop/UCSB/ucsb_classes/w26/cs293G/joern/benchmarks/juliet/outputs/derived/A",
+  "file_count": 5,
+  "generated_at_epoch_ms": 1772921339663,
+  "juliet_root": "/Users/saqif/Downloads/C",
+  "source_labels_manifest": "",
+  "source_stage_manifest": "/Users/saqif/Desktop/UCSB/ucsb_classes/w26/cs293G/joern/benchmarks/juliet/manifests/stage_a_derived_cases.json",
+  "source_transform_manifest": "/Users/saqif/Desktop/UCSB/ucsb_classes/w26/cs293G/joern/benchmarks/juliet/manifests/stage_a_clamp_transform_manifest.json",
+  "stage": "A",
+  "testcases_root": "/Users/saqif/Desktop/UCSB/ucsb_classes/w26/cs293G/joern/benchmarks/juliet/outputs/curated/all_stages/clamp_transformable_only/A"
+}

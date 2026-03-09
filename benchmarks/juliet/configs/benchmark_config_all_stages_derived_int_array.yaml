@@ -1,0 +1,34 @@
+# All-stages (A/B/C) derived clamp dataset benchmark config.
+
+juliet_root: /Users/saqif/Downloads/C
+
+tools:
+  joern: ./joern
+  joern_parse: ./joern-parse
+  run_script: benchmarks/juliet/scripts/run_bof_workflow.sc
+
+paths:
+  manifests_root: benchmarks/juliet/manifests
+  staged_root: benchmarks/juliet/outputs/staged
+  cache_root: benchmarks/juliet/outputs/cache
+  findings_root: benchmarks/juliet/outputs/findings
+  logs_root: benchmarks/juliet/outputs/logs
+  score_root: benchmarks/juliet/outputs/scored
+  summary_root: benchmarks/juliet/outputs/summary
+
+options:
+  force: false
+  parallelism: 1
+
+stages:
+  - A
+  - B
+  - C
+
+configs:
+  master:
+    alias: baseline_current_binary
+    modeled_policy: ENFORCE
+    discovery_enabled: false
+    flow_mode: int_array_index_clamp_io
+    input_root: benchmarks/juliet/outputs/derived

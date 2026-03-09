@@ -1,0 +1,3534 @@
+{
+  "case_count": 233,
+  "cases": [
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_21",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_21.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 21,
+      "variant_parts": [],
+      "variant_text": "21"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_22",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_22b.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 22,
+      "variant_parts": [
+        "a",
+        "b"
+      ],
+      "variant_text": "22"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_41",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_41.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 41,
+      "variant_parts": [],
+      "variant_text": "41"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_42",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_42.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 42,
+      "variant_parts": [],
+      "variant_text": "42"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_43",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_43.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 43,
+      "variant_parts": [],
+      "variant_text": "43"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_44",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_44.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 44,
+      "variant_parts": [],
+      "variant_text": "44"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_45",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_45.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 45,
+      "variant_parts": [],
+      "variant_text": "45"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fgets_21",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fgets_21.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 21,
+      "variant_parts": [],
+      "variant_text": "21"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fgets_22",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fgets_22b.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 22,
+      "variant_parts": [
+        "a",
+        "b"
+      ],
+      "variant_text": "22"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fgets_41",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fgets_41.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 41,
+      "variant_parts": [],
+      "variant_text": "41"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fgets_42",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fgets_42.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 42,
+      "variant_parts": [],
+      "variant_text": "42"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fgets_43",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fgets_43.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 43,
+      "variant_parts": [],
+      "variant_text": "43"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fgets_44",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fgets_44.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 44,
+      "variant_parts": [],
+      "variant_text": "44"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fgets_45",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fgets_45.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 45,
+      "variant_parts": [],
+      "variant_text": "45"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_02",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_02.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 2,
+      "variant_parts": [],
+      "variant_text": "02"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_03",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_03.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 3,
+      "variant_parts": [],
+      "variant_text": "03"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_04",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_04.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 4,
+      "variant_parts": [],
+      "variant_text": "04"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_05",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_05.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 5,
+      "variant_parts": [],
+      "variant_text": "05"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_06",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_06.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 6,
+      "variant_parts": [],
+      "variant_text": "06"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_07",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_07.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 7,
+      "variant_parts": [],
+      "variant_text": "07"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_08",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_08.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 8,
+      "variant_parts": [],
+      "variant_text": "08"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_09",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_09.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 9,
+      "variant_parts": [],
+      "variant_text": "09"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_10",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_10.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 10,
+      "variant_parts": [],
+      "variant_text": "10"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_11",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_11.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 11,
+      "variant_parts": [],
+      "variant_text": "11"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_12",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_12.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 12,
+      "variant_parts": [],
+      "variant_text": "12"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_13",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_13.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 13,
+      "variant_parts": [],
+      "variant_text": "13"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_14",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_14.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 14,
+      "variant_parts": [],
+      "variant_text": "14"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_15",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_15.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 15,
+      "variant_parts": [],
+      "variant_text": "15"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_16",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_16.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 16,
+      "variant_parts": [],
+      "variant_text": "16"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_17",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_17.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 17,
+      "variant_parts": [],
+      "variant_text": "17"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_18",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_18.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 18,
+      "variant_parts": [],
+      "variant_text": "18"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_21",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_21.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 21,
+      "variant_parts": [],
+      "variant_text": "21"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_22",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_22b.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 22,
+      "variant_parts": [
+        "a",
+        "b"
+      ],
+      "variant_text": "22"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_31",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_31.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 31,
+      "variant_parts": [],
+      "variant_text": "31"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_32",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_32.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 32,
+      "variant_parts": [],
+      "variant_text": "32"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_33",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_33.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 33,
+      "variant_parts": [],
+      "variant_text": "33"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_34",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_34.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 34,
+      "variant_parts": [],
+      "variant_text": "34"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_41",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_41.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 41,
+      "variant_parts": [],
+      "variant_text": "41"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_42",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_42.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 42,
+      "variant_parts": [],
+      "variant_text": "42"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_43",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_43.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 43,
+      "variant_parts": [],
+      "variant_text": "43"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_44",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_44.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 44,
+      "variant_parts": [],
+      "variant_text": "44"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_45",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_45.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 45,
+      "variant_parts": [],
+      "variant_text": "45"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_02",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_02.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 2,
+      "variant_parts": [],
+      "variant_text": "02"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_03",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_03.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 3,
+      "variant_parts": [],
+      "variant_text": "03"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_04",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_04.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 4,
+      "variant_parts": [],
+      "variant_text": "04"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_05",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_05.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 5,
+      "variant_parts": [],
+      "variant_text": "05"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_06",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_06.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 6,
+      "variant_parts": [],
+      "variant_text": "06"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_07",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_07.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 7,
+      "variant_parts": [],
+      "variant_text": "07"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_08",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_08.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 8,
+      "variant_parts": [],
+      "variant_text": "08"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_09",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_09.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 9,
+      "variant_parts": [],
+      "variant_text": "09"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_10",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_10.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 10,
+      "variant_parts": [],
+      "variant_text": "10"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_11",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_11.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 11,
+      "variant_parts": [],
+      "variant_text": "11"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_12",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_12.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 12,
+      "variant_parts": [],
+      "variant_text": "12"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_13",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_13.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 13,
+      "variant_parts": [],
+      "variant_text": "13"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_14",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_14.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 14,
+      "variant_parts": [],
+      "variant_text": "14"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_15",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_15.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 15,
+      "variant_parts": [],
+      "variant_text": "15"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_16",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_16.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 16,
+      "variant_parts": [],
+      "variant_text": "16"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_17",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_17.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 17,
+      "variant_parts": [],
+      "variant_text": "17"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_18",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_18.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 18,
+      "variant_parts": [],
+      "variant_text": "18"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_21",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_21.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 21,
+      "variant_parts": [],
+      "variant_text": "21"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_22",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_22b.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 22,
+      "variant_parts": [
+        "a",
+        "b"
+      ],
+      "variant_text": "22"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_31",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_31.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 31,
+      "variant_parts": [],
+      "variant_text": "31"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_32",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_32.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 32,
+      "variant_parts": [],
+      "variant_text": "32"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_33",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_33.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 33,
+      "variant_parts": [],
+      "variant_text": "33"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_34",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_34.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 34,
+      "variant_parts": [],
+      "variant_text": "34"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_41",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_41.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 41,
+      "variant_parts": [],
+      "variant_text": "41"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_42",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_42.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 42,
+      "variant_parts": [],
+      "variant_text": "42"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_43",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_43.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 43,
+      "variant_parts": [],
+      "variant_text": "43"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_44",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_44.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 44,
+      "variant_parts": [],
+      "variant_text": "44"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_large_45",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_large_45.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 45,
+      "variant_parts": [],
+      "variant_text": "45"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_21",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_21.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 21,
+      "variant_parts": [],
+      "variant_text": "21"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_22",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_22b.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 22,
+      "variant_parts": [
+        "a",
+        "b"
+      ],
+      "variant_text": "22"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_41",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_41.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 41,
+      "variant_parts": [],
+      "variant_text": "41"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_42",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_42.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 42,
+      "variant_parts": [],
+      "variant_text": "42"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_43",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_43.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 43,
+      "variant_parts": [],
+      "variant_text": "43"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_44",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_44.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 44,
+      "variant_parts": [],
+      "variant_text": "44"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_45",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_45.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 45,
+      "variant_parts": [],
+      "variant_text": "45"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_02",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_02.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 2,
+      "variant_parts": [],
+      "variant_text": "02"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_03",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_03.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 3,
+      "variant_parts": [],
+      "variant_text": "03"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_04",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_04.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 4,
+      "variant_parts": [],
+      "variant_text": "04"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_05",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_05.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 5,
+      "variant_parts": [],
+      "variant_text": "05"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_06",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_06.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 6,
+      "variant_parts": [],
+      "variant_text": "06"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_07",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_07.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 7,
+      "variant_parts": [],
+      "variant_text": "07"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_08",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_08.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 8,
+      "variant_parts": [],
+      "variant_text": "08"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_09",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_09.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 9,
+      "variant_parts": [],
+      "variant_text": "09"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_10",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_10.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 10,
+      "variant_parts": [],
+      "variant_text": "10"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_11",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_11.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 11,
+      "variant_parts": [],
+      "variant_text": "11"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_12",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_12.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 12,
+      "variant_parts": [],
+      "variant_text": "12"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_13",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_13.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 13,
+      "variant_parts": [],
+      "variant_text": "13"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_14",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_14.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 14,
+      "variant_parts": [],
+      "variant_text": "14"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_15",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_15.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 15,
+      "variant_parts": [],
+      "variant_text": "15"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_16",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_16.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 16,
+      "variant_parts": [],
+      "variant_text": "16"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_17",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_17.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 17,
+      "variant_parts": [],
+      "variant_text": "17"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_18",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_18.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 18,
+      "variant_parts": [],
+      "variant_text": "18"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_21",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_21.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 21,
+      "variant_parts": [],
+      "variant_text": "21"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_22",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_22b.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 22,
+      "variant_parts": [
+        "a",
+        "b"
+      ],
+      "variant_text": "22"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_31",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_31.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 31,
+      "variant_parts": [],
+      "variant_text": "31"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_32",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_32.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 32,
+      "variant_parts": [],
+      "variant_text": "32"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_33",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_33.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 33,
+      "variant_parts": [],
+      "variant_text": "33"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_34",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_34.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 34,
+      "variant_parts": [],
+      "variant_text": "34"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_41",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_41.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 41,
+      "variant_parts": [],
+      "variant_text": "41"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_42",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_42.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 42,
+      "variant_parts": [],
+      "variant_text": "42"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_43",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_43.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 43,
+      "variant_parts": [],
+      "variant_text": "43"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_44",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_44.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 44,
+      "variant_parts": [],
+      "variant_text": "44"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_45",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_45.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 45,
+      "variant_parts": [],
+      "variant_text": "45"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_02",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_02.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 2,
+      "variant_parts": [],
+      "variant_text": "02"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_03",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_03.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 3,
+      "variant_parts": [],
+      "variant_text": "03"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_04",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_04.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 4,
+      "variant_parts": [],
+      "variant_text": "04"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_05",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_05.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 5,
+      "variant_parts": [],
+      "variant_text": "05"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_06",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_06.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 6,
+      "variant_parts": [],
+      "variant_text": "06"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_07",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_07.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 7,
+      "variant_parts": [],
+      "variant_text": "07"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_08",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_08.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 8,
+      "variant_parts": [],
+      "variant_text": "08"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_09",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_09.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 9,
+      "variant_parts": [],
+      "variant_text": "09"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_10",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_10.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 10,
+      "variant_parts": [],
+      "variant_text": "10"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_11",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_11.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 11,
+      "variant_parts": [],
+      "variant_text": "11"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_12",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_12.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 12,
+      "variant_parts": [],
+      "variant_text": "12"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_13",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_13.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 13,
+      "variant_parts": [],
+      "variant_text": "13"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_14",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_alloca_loop_14.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 14,
+      "variant_parts": [],
+      "variant_text": "14"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_02",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_02.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 2,
+      "variant_parts": [],
+      "variant_text": "02"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_03",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_03.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 3,
+      "variant_parts": [],
+      "variant_text": "03"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_04",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_04.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 4,
+      "variant_parts": [],
+      "variant_text": "04"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_05",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_05.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 5,
+      "variant_parts": [],
+      "variant_text": "05"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_06",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_06.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 6,
+      "variant_parts": [],
+      "variant_text": "06"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_07",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_07.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 7,
+      "variant_parts": [],
+      "variant_text": "07"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_08",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_08.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 8,
+      "variant_parts": [],
+      "variant_text": "08"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_09",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_09.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 9,
+      "variant_parts": [],
+      "variant_text": "09"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_10",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_10.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 10,
+      "variant_parts": [],
+      "variant_text": "10"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_11",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_11.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 11,
+      "variant_parts": [],
+      "variant_text": "11"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_12",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_12.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 12,
+      "variant_parts": [],
+      "variant_text": "12"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_13",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_13.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 13,
+      "variant_parts": [],
+      "variant_text": "13"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_14",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s06/CWE121_Stack_Based_Buffer_Overflow__CWE806_char_declare_loop_14.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 14,
+      "variant_parts": [],
+      "variant_text": "14"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_02",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_02.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 2,
+      "variant_parts": [],
+      "variant_text": "02"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_03",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_03.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 3,
+      "variant_parts": [],
+      "variant_text": "03"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_04",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_04.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 4,
+      "variant_parts": [],
+      "variant_text": "04"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_05",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_05.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 5,
+      "variant_parts": [],
+      "variant_text": "05"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_06",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_06.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 6,
+      "variant_parts": [],
+      "variant_text": "06"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_07",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_07.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 7,
+      "variant_parts": [],
+      "variant_text": "07"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_08",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_08.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 8,
+      "variant_parts": [],
+      "variant_text": "08"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_09",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_09.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 9,
+      "variant_parts": [],
+      "variant_text": "09"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_10",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_10.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 10,
+      "variant_parts": [],
+      "variant_text": "10"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_11",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_11.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 11,
+      "variant_parts": [],
+      "variant_text": "11"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_12",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_12.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 12,
+      "variant_parts": [],
+      "variant_text": "12"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_13",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_13.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 13,
+      "variant_parts": [],
+      "variant_text": "13"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_14",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_alloca_loop_14.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 14,
+      "variant_parts": [],
+      "variant_text": "14"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_02",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_02.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 2,
+      "variant_parts": [],
+      "variant_text": "02"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_03",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_03.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 3,
+      "variant_parts": [],
+      "variant_text": "03"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_04",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_04.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 4,
+      "variant_parts": [],
+      "variant_text": "04"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_05",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_05.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 5,
+      "variant_parts": [],
+      "variant_text": "05"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_06",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_06.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 6,
+      "variant_parts": [],
+      "variant_text": "06"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_07",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_07.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 7,
+      "variant_parts": [],
+      "variant_text": "07"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_08",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_08.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 8,
+      "variant_parts": [],
+      "variant_text": "08"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_09",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_09.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 9,
+      "variant_parts": [],
+      "variant_text": "09"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_10",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_10.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 10,
+      "variant_parts": [],
+      "variant_text": "10"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_11",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_11.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 11,
+      "variant_parts": [],
+      "variant_text": "11"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_12",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_12.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 12,
+      "variant_parts": [],
+      "variant_text": "12"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_13",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_13.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 13,
+      "variant_parts": [],
+      "variant_text": "13"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_14",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s07/CWE121_Stack_Based_Buffer_Overflow__CWE806_wchar_t_declare_loop_14.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 14,
+      "variant_parts": [],
+      "variant_text": "14"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_02",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_02.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 2,
+      "variant_parts": [],
+      "variant_text": "02"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_03",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_03.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 3,
+      "variant_parts": [],
+      "variant_text": "03"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_04",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_04.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 4,
+      "variant_parts": [],
+      "variant_text": "04"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_05",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_05.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 5,
+      "variant_parts": [],
+      "variant_text": "05"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_06",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_06.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 6,
+      "variant_parts": [],
+      "variant_text": "06"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_07",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_07.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 7,
+      "variant_parts": [],
+      "variant_text": "07"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_08",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_08.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 8,
+      "variant_parts": [],
+      "variant_text": "08"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_09",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_09.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 9,
+      "variant_parts": [],
+      "variant_text": "09"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_10",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_10.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 10,
+      "variant_parts": [],
+      "variant_text": "10"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_11",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_11.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 11,
+      "variant_parts": [],
+      "variant_text": "11"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_12",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_12.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 12,
+      "variant_parts": [],
+      "variant_text": "12"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_13",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_13.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 13,
+      "variant_parts": [],
+      "variant_text": "13"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_14",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_14.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 14,
+      "variant_parts": [],
+      "variant_text": "14"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_15",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_15.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 15,
+      "variant_parts": [],
+      "variant_text": "15"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_16",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_16.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 16,
+      "variant_parts": [],
+      "variant_text": "16"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_17",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_17.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 17,
+      "variant_parts": [],
+      "variant_text": "17"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_18",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_18.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 18,
+      "variant_parts": [],
+      "variant_text": "18"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_21",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_21.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 21,
+      "variant_parts": [],
+      "variant_text": "21"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_22",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_22a.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 22,
+      "variant_parts": [
+        "a",
+        "b"
+      ],
+      "variant_text": "22"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_31",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_31.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 31,
+      "variant_parts": [],
+      "variant_text": "31"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_32",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_32.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 32,
+      "variant_parts": [],
+      "variant_text": "32"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_33",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_33.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 33,
+      "variant_parts": [],
+      "variant_text": "33"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_34",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_34.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 34,
+      "variant_parts": [],
+      "variant_text": "34"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_42",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_42.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 42,
+      "variant_parts": [],
+      "variant_text": "42"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_43",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_char_loop_43.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 43,
+      "variant_parts": [],
+      "variant_text": "43"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_02",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_02.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 2,
+      "variant_parts": [],
+      "variant_text": "02"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_03",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_03.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 3,
+      "variant_parts": [],
+      "variant_text": "03"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_04",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_04.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 4,
+      "variant_parts": [],
+      "variant_text": "04"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_05",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_05.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 5,
+      "variant_parts": [],
+      "variant_text": "05"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_06",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_06.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 6,
+      "variant_parts": [],
+      "variant_text": "06"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_07",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_07.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 7,
+      "variant_parts": [],
+      "variant_text": "07"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_08",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_08.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 8,
+      "variant_parts": [],
+      "variant_text": "08"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_09",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_09.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 9,
+      "variant_parts": [],
+      "variant_text": "09"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_10",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_10.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 10,
+      "variant_parts": [],
+      "variant_text": "10"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_11",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_11.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 11,
+      "variant_parts": [],
+      "variant_text": "11"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_12",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_12.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 12,
+      "variant_parts": [],
+      "variant_text": "12"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_13",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_13.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 13,
+      "variant_parts": [],
+      "variant_text": "13"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_14",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_14.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 14,
+      "variant_parts": [],
+      "variant_text": "14"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_15",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_15.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 15,
+      "variant_parts": [],
+      "variant_text": "15"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_16",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_16.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 16,
+      "variant_parts": [],
+      "variant_text": "16"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_17",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_17.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 17,
+      "variant_parts": [],
+      "variant_text": "17"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_18",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_18.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 18,
+      "variant_parts": [],
+      "variant_text": "18"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_21",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_21.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 21,
+      "variant_parts": [],
+      "variant_text": "21"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_22",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_22a.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 22,
+      "variant_parts": [
+        "a",
+        "b"
+      ],
+      "variant_text": "22"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_31",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_31.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 31,
+      "variant_parts": [],
+      "variant_text": "31"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_32",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_32.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 32,
+      "variant_parts": [],
+      "variant_text": "32"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_33",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_33.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 33,
+      "variant_parts": [],
+      "variant_text": "33"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_34",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_34.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 34,
+      "variant_parts": [],
+      "variant_text": "34"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_42",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_42.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "B",
+      "variant": 42,
+      "variant_parts": [],
+      "variant_text": "42"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_43",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s09/CWE122_Heap_Based_Buffer_Overflow__c_CWE806_wchar_t_loop_43.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 43,
+      "variant_parts": [],
+      "variant_text": "43"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_02",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_02.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 2,
+      "variant_parts": [],
+      "variant_text": "02"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_03",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_03.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 3,
+      "variant_parts": [],
+      "variant_text": "03"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_04",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_04.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 4,
+      "variant_parts": [],
+      "variant_text": "04"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_05",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_05.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 5,
+      "variant_parts": [],
+      "variant_text": "05"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_06",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_06.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 6,
+      "variant_parts": [],
+      "variant_text": "06"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_07",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_07.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 7,
+      "variant_parts": [],
+      "variant_text": "07"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_08",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_08.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 8,
+      "variant_parts": [],
+      "variant_text": "08"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_09",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_09.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 9,
+      "variant_parts": [],
+      "variant_text": "09"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_10",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_10.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 10,
+      "variant_parts": [],
+      "variant_text": "10"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_11",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_11.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 11,
+      "variant_parts": [],
+      "variant_text": "11"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_12",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_12.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 12,
+      "variant_parts": [],
+      "variant_text": "12"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_13",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_13.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 13,
+      "variant_parts": [],
+      "variant_text": "13"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_14",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_char_loop_14.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 14,
+      "variant_parts": [],
+      "variant_text": "14"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_02",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_02.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 2,
+      "variant_parts": [],
+      "variant_text": "02"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_03",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_03.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 3,
+      "variant_parts": [],
+      "variant_text": "03"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_04",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_04.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 4,
+      "variant_parts": [],
+      "variant_text": "04"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_05",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_05.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 5,
+      "variant_parts": [],
+      "variant_text": "05"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_06",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_06.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 6,
+      "variant_parts": [],
+      "variant_text": "06"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_07",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_07.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 7,
+      "variant_parts": [],
+      "variant_text": "07"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_08",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_08.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 8,
+      "variant_parts": [],
+      "variant_text": "08"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_09",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_09.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 9,
+      "variant_parts": [],
+      "variant_text": "09"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_10",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_10.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 10,
+      "variant_parts": [],
+      "variant_text": "10"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_11",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_11.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 11,
+      "variant_parts": [],
+      "variant_text": "11"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_12",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_12.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 12,
+      "variant_parts": [],
+      "variant_text": "12"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_13",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_13.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 13,
+      "variant_parts": [],
+      "variant_text": "13"
+    },
+    {
+      "cwe": "CWE122",
+      "family_id": "CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_14",
+      "file_count": 1,
+      "files": [
+        "CWE122_Heap_Based_Buffer_Overflow/s04/CWE122_Heap_Based_Buffer_Overflow__cpp_CWE806_wchar_t_loop_14.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "B",
+      "variant": 14,
+      "variant_parts": [],
+      "variant_text": "14"
+    }
+  ],
+  "curation_mode": "clamp_transformable_only",
+  "derived_root": "/Users/saqif/Desktop/UCSB/ucsb_classes/w26/cs293G/joern/benchmarks/juliet/outputs/derived/B",
+  "file_count": 233,
+  "generated_at_epoch_ms": 1772921329941,
+  "juliet_root": "/Users/saqif/Downloads/C",
+  "source_labels_manifest": "",
+  "source_stage_manifest": "/Users/saqif/Desktop/UCSB/ucsb_classes/w26/cs293G/joern/benchmarks/juliet/manifests/stage_b_derived_cases.json",
+  "source_transform_manifest": "/Users/saqif/Desktop/UCSB/ucsb_classes/w26/cs293G/joern/benchmarks/juliet/manifests/stage_b_clamp_transform_manifest.json",
+  "stage": "A",
+  "testcases_root": "/Users/saqif/Desktop/UCSB/ucsb_classes/w26/cs293G/joern/benchmarks/juliet/outputs/curated/all_stages/clamp_transformable_only/B"
+}

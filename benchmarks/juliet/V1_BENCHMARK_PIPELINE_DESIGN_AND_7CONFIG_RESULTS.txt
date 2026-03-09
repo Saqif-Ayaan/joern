@@ -1,0 +1,535 @@
+V1 Benchmarking Pipeline Design Doc + 7-Config Results
+======================================================
+
+Document version: 2
+Date: 2026-03-08
+Repo root: /Users/saqif/Desktop/UCSB/ucsb_classes/w26/cs293G/joern
+
+
+1) Purpose and Scope
+--------------------
+This document explains the V1 benchmarking pipeline used in this repository and presents a full
+results breakdown for the discussed config set on the curated 73-program dataset.
+
+In this document, "V1" means the original flow-level benchmark/scoring path:
+- Analysis output generation via run_bof_workflow.sc in source->sink mode
+- Function-level evaluation via score_joern_results.py
+
+V1 primary question:
+- Does the configured analysis report taint flow at Juliet function-level labels correctly?
+
+V1 is NOT the sanitizer-decision scorer. Sanitizer decision benchmarking is the separate V2 path.
+
+
+2) Dataset and Benchmark Scope
+------------------------------
+Run scope used for these results:
+- Dataset: curated all-stage clamp-transformable-and-matched-flow subset
+- Total files: 73
+- Stages:
+  - A: 2 files
+  - B: 63 files
+  - C: 8 files
+- Flow mode: int_array_index_clamp_io
+- Labels used for V1 scoring: all_stages_curated_clamp_transformable_and_matched_flow_labels.json
+
+Count context from V1 summary:
+- finding_records: 962
+- labeled_functions_total: 669
+- labeled_functions_scored (positive+negative only): 554
+- scoring_instances: 3324 (= 554 functions x 6 unique configs)
+- unmatched_findings: 0
+
+
+3) V1 Pipeline Architecture
+---------------------------
+The V1 pipeline is a staged source->sink benchmark pipeline:
+
+A) Subset preparation
+- build_juliet_subsets.py builds staged A/B/C subsets and manifests.
+- classify_juliet_cases.py labels functions:
+  - bad*      => positive (vulnerable expected)
+  - goodB2G*  => negative (safe expected)
+  - goodG2B*  => excluded from scoring
+
+B) Analysis execution
+- run_joern_on_subset.py runs one (stage, config) cell.
+- It manages cache for CPG build and run outputs.
+- It executes run_bof_workflow.sc with the config policy toggles.
+- It writes per-cell artifacts:
+  - findings JSON
+  - sanitizer decisions JSON (telemetry; not consumed by V1 scoring)
+  - metadata JSON
+  - logs
+
+C) V1 scoring
+- score_joern_results.py consumes findings + labels.
+- Matching strategy is function-level with file/function and line-based fallback.
+- Per scored function per config:
+  - predicted_positive = at least one matched finding
+  - actual_positive    = label is "positive" (bad*)
+- Confusion matrix semantics:
+  - TP: bad* and finding exists
+  - FP: goodB2G* and finding exists
+  - TN: goodB2G* and no finding
+  - FN: bad* and no finding
+
+D) V1 aggregate outputs
+- summary.json, metrics.csv, mismatches.csv
+- Optional summarize_results.py for multi-run aggregation
+
+
+4) What V1 Benchmarks (and What It Does Not)
+--------------------------------------------
+V1 benchmarks:
+- End-to-end flow detection quality at function-level labels.
+- Whether dangerous flows are reported in bad* and suppressed in goodB2G*.
+
+V1 does not benchmark:
+- Whether a specific sanitizer decision at a callsite is correct.
+- Whether a discovered function classified as sanitizer is semantically correct.
+
+Those are V2 concerns.
+
+
+5) Config Set Clarification (Requested "7 Configs")
+----------------------------------------------------
+You requested:
+- "the 5 original configs + trust discovery on + trust discovery off"
+
+In this repo, the discussed set resolves to 6 unique config keys:
+1. master
+2. branch_enforce_discovery_off
+3. branch_enforce_discovery_on
+4. branch_warn_discovery_off
+5. branch_trust_discovery_off
+6. branch_trust_discovery_on
+
+Why 6 and not 7:
+- branch_trust_discovery_off is already one of the original 5 discussed configs.
+- Adding "trust discovery off" again is a duplicate key.
+
+To respect your request wording, Section 8 includes a 7-row view where row 7 is the
+explicit duplicate alias of trust_discovery_off, yielding identical values.
+
+
+6) V1 Primary Results Across Unique Configs (6, Core-Only)
+-----------------------------------------------------------
+Metric source:
+- benchmarks/juliet/outputs/scored/clamp_subset_73/vuln/metrics.csv
+
+Primary reporting scope for updated FN interpretation:
+- dimension = `config_function_role`
+- key = `<config>|core`
+
+Per-config core-only metrics (function-level):
+
+- master:
+  TP=77 FP=110 TN=13 FN=10
+  precision=0.411765 recall=0.885057 f1=0.562044 fpr=0.894309 fnr=0.114943
+
+- branch_enforce_discovery_off:
+  TP=77 FP=110 TN=13 FN=10
+  precision=0.411765 recall=0.885057 f1=0.562044 fpr=0.894309 fnr=0.114943
+
+- branch_enforce_discovery_on:
+  TP=77 FP=20 TN=103 FN=10
+  precision=0.793814 recall=0.885057 f1=0.836957 fpr=0.162602 fnr=0.114943
+
+- branch_warn_discovery_off:
+  TP=77 FP=110 TN=13 FN=10
+  precision=0.411765 recall=0.885057 f1=0.562044 fpr=0.894309 fnr=0.114943
+
+- branch_trust_discovery_off:
+  TP=77 FP=110 TN=13 FN=10
+  precision=0.411765 recall=0.885057 f1=0.562044 fpr=0.894309 fnr=0.114943
+
+- branch_trust_discovery_on:
+  TP=77 FP=20 TN=103 FN=10
+  precision=0.793814 recall=0.885057 f1=0.836957 fpr=0.162602 fnr=0.114943
+
+Immediate pattern:
+- Discovery ON configs reduce core FP heavily (110 -> 20) while core TP remains 77.
+- Core FN is stable at 10 across configs.
+- Precision/F1 improve strongly under discovery ON, while core recall is unchanged.
+- Legacy overall rows (including auxiliary/helper roles) are still available in
+  `metrics.csv` under `dimension=config` and discussed in Section 13.
+
+
+7) Stage-Level Behavior (V1 Legacy Overall View)
+------------------------------------------------
+This section uses `dimension=stage` rows, which include auxiliary/helper functions.
+Primary FN interpretation should use Section 6 core-only metrics.
+
+Stage A (small sample, 2 files):
+- discovery OFF style configs: TP=2 FP=2 TN=4 FN=4
+- discovery ON configs:        TP=2 FP=0 TN=6 FN=4
+- Effect: FP reduction only
+
+Stage B (dominant stage, 63 files):
+- discovery OFF style configs: TP=71 FP=104 TN=207 FN=128
+- discovery ON configs:        TP=71 FP=16  TN=295 FN=128
+- Effect: major FP reduction, same TP/FN
+
+Stage C (8 files):
+- all configs: TP=8 FP=8 TN=8 FN=8
+- Effect: no observable change by config in this stage
+
+Interpretation:
+- Most config-driven gains are concentrated in Stage B.
+- Stage C appears insensitive to these toggles in current workflow and subset.
+
+
+8) Requested 7-Config View (with Explicit Duplicate Slot)
+----------------------------------------------------------
+Rows 1-6 are unique config keys. Row 7 is the explicit duplicate "trust_discovery_off"
+slot requested in wording.
+
+1) master
+- TP=77 FP=110 TN=13 FN=10
+- precision=0.411765 recall=0.885057 f1=0.562044
+
+2) branch_enforce_discovery_off
+- TP=77 FP=110 TN=13 FN=10
+- precision=0.411765 recall=0.885057 f1=0.562044
+
+3) branch_enforce_discovery_on
+- TP=77 FP=20 TN=103 FN=10
+- precision=0.793814 recall=0.885057 f1=0.836957
+
+4) branch_warn_discovery_off
+- TP=77 FP=110 TN=13 FN=10
+- precision=0.411765 recall=0.885057 f1=0.562044
+
+5) branch_trust_discovery_off
+- TP=77 FP=110 TN=13 FN=10
+- precision=0.411765 recall=0.885057 f1=0.562044
+
+6) branch_trust_discovery_on
+- TP=77 FP=20 TN=103 FN=10
+- precision=0.793814 recall=0.885057 f1=0.836957
+
+7) trust_discovery_off (requested duplicate slot)
+- Same as row 5 by definition:
+  TP=77 FP=110 TN=13 FN=10
+  precision=0.411765 recall=0.885057 f1=0.562044
+
+
+9) Dedicated Comparison: trust_discovery_on vs trust_discovery_off
+-------------------------------------------------------------------
+This section isolates only:
+- branch_trust_discovery_off
+- branch_trust_discovery_on
+
+9.1) Side-by-side core-only confusion matrix
+- trust_discovery_off:
+  TP=77 FP=110 TN=13 FN=10
+  precision=0.411765 recall=0.885057 f1=0.562044 fpr=0.894309 fnr=0.114943
+
+- trust_discovery_on:
+  TP=77 FP=20 TN=103 FN=10
+  precision=0.793814 recall=0.885057 f1=0.836957 fpr=0.162602 fnr=0.114943
+
+9.2) Exact deltas (on - off)
+- TP:  +0
+- FP:  -90
+- TN:  +90
+- FN:  +0
+- precision: +0.382049 (0.411765 -> 0.793814)
+- recall: +0.000000 (unchanged)
+- f1: +0.274913 (0.562044 -> 0.836957)
+- fpr: -0.731707 (0.894309 -> 0.162602)
+- fnr: +0.000000 (unchanged)
+
+9.3) Interpretation by metric
+- TP unchanged (77 -> 77):
+  Discovery ON did not add new vulnerable-function hits in this benchmark setting.
+  The source->sink coverage for positives remained the same.
+
+- FN unchanged (10 -> 10):
+  Discovery ON did not recover missed positive functions in this run.
+  This means recall bottlenecks are elsewhere (source/sink reachability and/or flow modeling limits),
+  not primarily in sanitizer handling for these cases.
+
+- FP drops strongly (110 -> 20):
+  This is the dominant effect. Discovery ON removes many findings on negative (goodB2G) functions
+  that OFF mode still reported.
+
+- TN rises symmetrically (13 -> 103):
+  This is the complement of FP reduction; negatives are handled more correctly.
+
+9.4) Stage-level contribution for trust on/off
+- Current CSV pre-aggregates stage-level numbers in legacy overall mode only.
+- For updated FN interpretation, rely on:
+  - Section 6 (core-only config metrics),
+  - Section 13.3 (explicit list of the 10 persistent core FNs, all in Stage B).
+
+9.5) Why these differences exist in V1 terms
+Within V1 (function-level taint outcome scoring), trust_discovery_on changes behavior by allowing
+runtime sanitizer discovery to suppress flows in cases where OFF mode keeps them.
+In this dataset, that suppression mostly affects negative functions, which manifests as:
+- fewer FPs
+- more TNs
+- no change to TP/FN
+
+So, for V1, the observed gain is specificity-oriented (false-alarm reduction), not sensitivity-oriented.
+
+9.6) Fruitful contribution or fluff?
+Short answer for this benchmark slice: fruitful, but narrowly.
+
+Why it is fruitful:
+- Large and repeatable FP reduction (-90) with no TP loss.
+- Significant precision and FPR improvements.
+- Practical analyst impact: fewer false alarms to triage for equivalent positive coverage.
+
+Why it is not a complete win:
+- Recall does not improve (FN unchanged at 10 in core-only view).
+- Discovery ON alone does not solve missed-vulnerability coverage.
+- V1 cannot prove sanitizer decision correctness directly; it only shows downstream flow outcomes.
+
+Final assessment:
+- Not fluff: there is measurable, material benefit in false-positive control.
+- Not sufficient alone for full research claim: pair this with V2 sanitizer-decision correctness
+  analysis to demonstrate that the FP reduction is both effective and semantically justified.
+
+
+10) Runtime and Throughput Context
+----------------------------------
+Per-config totals from stage metadata:
+
+- discovery OFF style configs (master/enforce_off/warn_off/trust_off):
+  total findings = 191
+  total sanitizer decision events = 1237
+
+- discovery ON configs (enforce_on/trust_on):
+  total findings = 99
+  total sanitizer decision events = 1146
+
+This aligns with lower FP in discovery ON configs: fewer total findings are emitted while
+TP remains fixed.
+
+
+11) Reproducibility Pointers
+----------------------------
+Key config file used for these runs:
+- benchmarks/juliet/configs/benchmark_config_all_stages_curated_clamp_transformable_and_matched_flow.yaml
+
+Key output files:
+- V1 summary:
+  benchmarks/juliet/outputs/scored/clamp_subset_73/vuln/summary.json
+- V1 metrics:
+  benchmarks/juliet/outputs/scored/clamp_subset_73/vuln/metrics.csv
+- V1 mismatches:
+  benchmarks/juliet/outputs/scored/clamp_subset_73/vuln/mismatches.csv
+- Per-cell metadata:
+  benchmarks/juliet/outputs/findings/clamp_subset_73/<config>/stage_<a|b|c>_metadata.json
+
+
+12) Caveats
+-----------
+- These numbers are for the curated 73-file subset and chosen source->sink flow mode only.
+- They should not be generalized to all Juliet C/C++ without rerunning on broader subsets.
+- V1 metrics are function-level flow outcomes; sanitizer-correctness conclusions require V2.
+
+
+13) FP/FN Clarification Update (Post Artifact Cleanup Discussion)
+-----------------------------------------------------------------
+This section captures the clarified interpretation after walking concrete FP/FN examples and
+separating helper artifacts from core Juliet functions.
+
+13.1) Important distinction: overall vs core-only view
+- Overall config rows include auxiliary/helper roles introduced by the clamp transformation.
+- Core-only rows isolate the original benchmark functions (`bad*`, `goodB2G*`) and remove helper-label
+  distortion from the main interpretation.
+
+Core-only confusion matrix (dimension=`config_function_role`, key=`<config>|core`):
+- branch_trust_discovery_off:
+  TP=77 FP=110 TN=13 FN=10
+  precision=0.411765 recall=0.885057 f1=0.562044
+- branch_trust_discovery_on:
+  TP=77 FP=20 TN=103 FN=10
+  precision=0.793814 recall=0.885057 f1=0.836957
+
+Same pattern holds for enforce configs (discovery off vs on).
+
+13.2) What changed in interpretation after cleanup
+- Previously, large FN counts were being over-read as sanitizer-validation misses.
+- After splitting by role, most of that apparent FN mass is auxiliary/helper-accounting noise in V1.
+- The stable core FN count is 10 (not 140).
+
+13.3) The 10 persistent core FNs (all in Stage B)
+These are unchanged across all configs in this run:
+- CWE129_connect_socket_44.c :: badSink
+- CWE129_connect_socket_45.c :: badSink
+- CWE129_fgets_21.c :: CWE121_Stack_Based_Buffer_Overflow__CWE129_fgets_21_bad
+- CWE129_fgets_41.c :: CWE121_Stack_Based_Buffer_Overflow__CWE129_fgets_41_bad
+- CWE129_fscanf_21.c :: CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_21_bad
+- CWE129_fscanf_41.c :: CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_41_bad
+- CWE129_listen_socket_44.c :: badSink
+- CWE129_listen_socket_45.c :: badSink
+- CWE129_rand_21.c :: CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_21_bad
+- CWE129_rand_41.c :: CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_41_bad
+
+Interpretation:
+- These are flow reachability/matching limits in the V1 source->sink setup for these variants.
+- They are not evidence that discovery-on incorrectly validated a sanitizer.
+
+13.4) Why discovery-on still has some FPs (core FP=20)
+Residual core FPs in discovery-on are concentrated in two buckets:
+
+Bucket A: source-acquisition line treated as sink by current int_array_index query
+- Pattern: `inputBuffer[recvResult] = '\\0'`
+- Example files/lines:
+  - benchmarks/juliet/outputs/derived/B/CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_21.c:254
+  - benchmarks/juliet/outputs/derived/B/CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_21.c:345
+- Count contribution: 18/20 core FPs.
+
+Bucket B: alternate goodB2G branch still uses direct index (no clamp call rewrite)
+- Pattern: `buffer[data] = 1`
+- Example files/lines:
+  - benchmarks/juliet/outputs/derived/B/CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_12.c:155
+  - benchmarks/juliet/outputs/derived/B/CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_12.c:155
+- Count contribution: 2/20 core FPs.
+
+Conclusion for these residual FPs:
+- They are query/flow-definition and transformation-coverage artifacts in V1.
+- They are not primarily clamp-validator false-positive behavior.
+
+13.5) Auxiliary buckets remain visible but should be reported separately
+- Auxiliary-only aggregate is stable across configs:
+  - TP=4 FP=4 TN=206 FN=130
+- This is why overall rows can look counterintuitive relative to sanitizer-validation intent.
+- For research claims about sanitizer validation effectiveness, use:
+  1) V1 core-only rows for downstream flow impact.
+  2) V2 sanitizer-decision scorer for direct sanitizer correctness.
+
+
+14) Standalone: How the Clamp-Focused Subset and Clamp Helpers Were Built
+--------------------------------------------------------------------------
+This section documents the data-construction pipeline behind the clamp-focused benchmark
+population used in this doc.
+
+14.1) Source corpus and Stage A/B/C staging
+- Source: local unpacked Juliet C/C++ tree (`CWE121` + `CWE122`).
+- Script: `benchmarks/juliet/scripts/build_juliet_subsets.py`.
+- Output staged roots:
+  - `benchmarks/juliet/outputs/staged/A`
+  - `benchmarks/juliet/outputs/staged/B`
+  - `benchmarks/juliet/outputs/staged/C`
+- Staging behavior:
+  - files are grouped by Juliet family id (multi-file variants stay together),
+  - stage assignment by variant:
+    - A = `01`
+    - B = `01..22` and `31..45`
+    - C = remaining
+  - stage trees are materialized as symlinks to source files.
+
+14.2) Function labels used by transformation and scoring
+- Script: `benchmarks/juliet/scripts/classify_juliet_cases.py`.
+- Label contract:
+  - `bad*` and name patterns with `_bad_` => `positive`
+  - `goodB2G*` and name patterns with `_goodB2G` => `negative`
+  - `goodG2B*` => `exclude`
+- These labels are consumed both by transformation targeting and by V1 scoring.
+
+14.3) Clamp helper synthesis and sink rewrite mechanics
+- Script: `benchmarks/juliet/scripts/transform_stage_a_clamp_dataset.py`.
+- Despite name, script is reused for A/B/C by passing stage-specific manifests and roots.
+- Stage outputs:
+  - Derived trees:
+    - `benchmarks/juliet/outputs/derived/A`
+    - `benchmarks/juliet/outputs/derived/B`
+    - `benchmarks/juliet/outputs/derived/C`
+  - Transformation manifests:
+    - `benchmarks/juliet/manifests/stage_a_clamp_transform_manifest.json`
+    - `benchmarks/juliet/manifests/stage_b_clamp_transform_manifest.json`
+    - `benchmarks/juliet/manifests/stage_c_clamp_transform_manifest.json`
+
+Transformation logic per function:
+- Target only functions labeled `positive` or `negative`.
+- Find sink candidate in function body by assignment pattern:
+  - `array[index] = ...`
+- Infer fixed array size from local declaration before sink:
+  - e.g., `int buffer[10]` => upper index `9`.
+- Find nearest preceding `if (...)` condition and parse recognized guarantees.
+
+Guard parsing currently recognizes:
+- lower-bound guarantee:
+  - `index >= 0` or `0 <= index`
+- upper-bound guarantee:
+  - `index < N` (treated as safe upper guarantee only when `N == array_size`)
+  - `index <= N` (treated as safe upper guarantee only when `N == array_size - 1`)
+
+Helper generation:
+- Per rewritten sink, generate two static helpers:
+  - `clamp_bad_<function>_<sinkLine>`
+  - `clamp_good_<function>_<sinkLine>`
+- `clamp_bad_*` encodes only guarantees parsed from the original guard.
+- `clamp_good_*` always enforces full bounds `0..array_size-1`.
+
+Rewrite rule:
+- Rewrite only sink index expression, not surrounding guard/control-flow.
+- Example shape:
+  - before: `buffer[data] = 1;`
+  - after : `buffer[clamp_bad_...(data)] = 1;` for positive function
+  - after : `buffer[clamp_good_...(data)] = 1;` for negative function
+- Generated helper blocks are inserted near top-of-file (after includes).
+
+Non-rewritten decisions are tracked with explicit reasons:
+- `no_assignment_array_index_sink_in_function`
+- `unable_to_infer_fixed_array_size`
+- `no_guard_condition_found_before_sink`
+
+14.4) Actual transform coverage observed in this repo
+From stage transform manifests:
+- Stage A:
+  - `file_count=244`, `decision_count=267`, `rewritten_count=8`
+- Stage B:
+  - `file_count=6603`, `decision_count=8695`, `rewritten_count=383`
+- Stage C:
+  - `file_count=11506`, `decision_count=7687`, `rewritten_count=148`
+
+14.5) Flow-matched curation into the 73-file clamp-focused subset
+- Curation script: `benchmarks/juliet/scripts/curate_stage_a_by_findings.py`
+  (also reused across A/B/C with stage-specific arguments).
+- Selection mode used for this run:
+  - `matched_flow` using findings from:
+    - `benchmarks/juliet/outputs/findings/clamp_subset_master/stage_a_findings.json`
+    - `benchmarks/juliet/outputs/findings/clamp_subset_master/stage_b_findings.json`
+    - `benchmarks/juliet/outputs/findings/clamp_subset_master/stage_c_findings.json`
+- Per-stage curated manifests:
+  - `stage_a_curated_clamp_transformable_and_matched_flow_allstages_manifest.json`
+  - `stage_b_curated_clamp_transformable_and_matched_flow_allstages_manifest.json`
+  - `stage_c_curated_clamp_transformable_and_matched_flow_allstages_manifest.json`
+- Aggregated all-stage subset manifest:
+  - `benchmarks/juliet/manifests/all_stages_curated_clamp_transformable_and_matched_flow_cases.json`
+
+Final curated subset size:
+- total files: `73`
+- total cases: `73`
+- stage split:
+  - A: `2`
+  - B: `63`
+  - C: `8`
+
+14.6) Why this subset is still clamp-focused
+- Although curation mode was `matched_flow`, selected files were drawn from derived trees
+  that already contain clamp rewrites.
+- In current artifacts, every selected file in the final 73-file set intersects with at least one
+  `status="rewritten"` decision in its stage transform manifest (A: 2/2, B: 63/63, C: 8/8).
+
+14.7) Artifact map for audit/reproduction
+- Stage subsets:
+  - `benchmarks/juliet/manifests/stage_{a,b,c}_cases.json`
+  - `benchmarks/juliet/outputs/staged/{A,B,C}`
+- Stage labels:
+  - `benchmarks/juliet/manifests/stage_{a,b,c}_labels.json`
+- Stage transforms:
+  - `benchmarks/juliet/manifests/stage_{a,b,c}_clamp_transform_manifest.json`
+  - `benchmarks/juliet/outputs/derived/{A,B,C}`
+- Stage curated subsets:
+  - `benchmarks/juliet/outputs/curated/all_stages/clamp_transformable_and_matched_flow/{A,B,C}`
+  - `benchmarks/juliet/manifests/stage_{a,b,c}_curated_clamp_transformable_and_matched_flow_allstages_cases.json`
+- Aggregated 73-file subset:
+  - `benchmarks/juliet/manifests/all_stages_curated_clamp_transformable_and_matched_flow_cases.json`
+  - `benchmarks/juliet/manifests/all_stages_curated_clamp_transformable_and_matched_flow_files.txt`

@@ -1,0 +1,135 @@
+{
+  "case_count": 8,
+  "cases": [
+    {
+      "cwe": "UNKNOWN",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_83_bad__unparsed",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_83_bad.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "C",
+      "variant": null,
+      "variant_parts": [],
+      "variant_text": "unknown"
+    },
+    {
+      "cwe": "UNKNOWN",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_83_goodB2G__unparsed",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_83_goodB2G.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "C",
+      "variant": null,
+      "variant_parts": [],
+      "variant_text": "unknown"
+    },
+    {
+      "cwe": "UNKNOWN",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_84_bad__unparsed",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_84_bad.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "C",
+      "variant": null,
+      "variant_parts": [],
+      "variant_text": "unknown"
+    },
+    {
+      "cwe": "UNKNOWN",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_84_goodB2G__unparsed",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_connect_socket_84_goodB2G.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "C",
+      "variant": null,
+      "variant_parts": [],
+      "variant_text": "unknown"
+    },
+    {
+      "cwe": "UNKNOWN",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_83_bad__unparsed",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_83_bad.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "C",
+      "variant": null,
+      "variant_parts": [],
+      "variant_text": "unknown"
+    },
+    {
+      "cwe": "UNKNOWN",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_83_goodB2G__unparsed",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_83_goodB2G.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "C",
+      "variant": null,
+      "variant_parts": [],
+      "variant_text": "unknown"
+    },
+    {
+      "cwe": "UNKNOWN",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_84_bad__unparsed",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_84_bad.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "C",
+      "variant": null,
+      "variant_parts": [],
+      "variant_text": "unknown"
+    },
+    {
+      "cwe": "UNKNOWN",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_84_goodB2G__unparsed",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_listen_socket_84_goodB2G.cpp"
+      ],
+      "languages": [
+        "cpp"
+      ],
+      "stage": "C",
+      "variant": null,
+      "variant_parts": [],
+      "variant_text": "unknown"
+    }
+  ],
+  "curation_mode": "matched_flow",
+  "derived_root": "/Users/saqif/Desktop/UCSB/ucsb_classes/w26/cs293G/joern/benchmarks/juliet/outputs/curated/all_stages/clamp_transformable_only/C",
+  "file_count": 8,
+  "generated_at_epoch_ms": 1772921534245,
+  "juliet_root": "/Users/saqif/Downloads/C",
+  "source_labels_manifest": "",
+  "source_stage_manifest": "/Users/saqif/Desktop/UCSB/ucsb_classes/w26/cs293G/joern/benchmarks/juliet/manifests/stage_c_curated_clamp_transformable_only_cases.json",
+  "source_transform_manifest": "",
+  "stage": "A",
+  "testcases_root": "/Users/saqif/Desktop/UCSB/ucsb_classes/w26/cs293G/joern/benchmarks/juliet/outputs/curated/all_stages/clamp_transformable_and_matched_flow/C"
+}

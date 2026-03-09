@@ -1,0 +1,45 @@
+{
+  "case_count": 2,
+  "cases": [
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_01",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_fscanf_01.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "A",
+      "variant": 1,
+      "variant_parts": [],
+      "variant_text": "01"
+    },
+    {
+      "cwe": "CWE121",
+      "family_id": "CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_01",
+      "file_count": 1,
+      "files": [
+        "CWE121_Stack_Based_Buffer_Overflow/s01/CWE121_Stack_Based_Buffer_Overflow__CWE129_rand_01.c"
+      ],
+      "languages": [
+        "c"
+      ],
+      "stage": "A",
+      "variant": 1,
+      "variant_parts": [],
+      "variant_text": "01"
+    }
+  ],
+  "curation_mode": "matched_flow",
+  "derived_root": "/Users/saqif/Desktop/UCSB/ucsb_classes/w26/cs293G/joern/benchmarks/juliet/outputs/curated/all_stages/clamp_transformable_only/A",
+  "file_count": 2,
+  "generated_at_epoch_ms": 1772921534153,
+  "juliet_root": "/Users/saqif/Downloads/C",
+  "source_labels_manifest": "",
+  "source_stage_manifest": "/Users/saqif/Desktop/UCSB/ucsb_classes/w26/cs293G/joern/benchmarks/juliet/manifests/stage_a_curated_clamp_transformable_only_cases.json",
+  "source_transform_manifest": "",
+  "stage": "A",
+  "testcases_root": "/Users/saqif/Desktop/UCSB/ucsb_classes/w26/cs293G/joern/benchmarks/juliet/outputs/curated/all_stages/clamp_transformable_and_matched_flow/A"
+}

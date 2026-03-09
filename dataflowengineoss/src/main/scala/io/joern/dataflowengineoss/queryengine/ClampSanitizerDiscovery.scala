@@ -21,6 +21,12 @@ case class SanitizerDecision(
 
 case class SanitizerDecisionStore(version: Int, entries: List[SanitizerDecision]) derives ReadWriter
 
+case class ClampDiscoveryDecisionResult(
+  predictedSanitizer: Option[Boolean],
+  reason: String,
+  semantic: Option[FlowSemantic]
+)
+
 /** Discovery and persistence for clamp sanitizer decisions on unmodeled internal methods.
   */
 object ClampSanitizerDiscovery {
@@ -34,8 +40,16 @@ object ClampSanitizerDiscovery {
   private var loadedSidecarPath: Option[String] = None
 
   def semanticForUnmodeledMethod(method: Method, config: EngineConfig): Option[FlowSemantic] = synchronized {
+    decisionForUnmodeledMethod(method, config).semantic
+  }
+
+  def decisionForUnmodeledMethod(method: Method, config: EngineConfig): ClampDiscoveryDecisionResult = synchronized {
     if (!isDiscoveryCandidate(method)) {
-      return None
+      return ClampDiscoveryDecisionResult(
+        predictedSanitizer = None,
+        reason = "not_candidate",
+        semantic = None
+      )
     }
 
     QueryEngineStatistics.incrementBy(CLAMP_DISCOVERY_CANDIDATES, 1L)
@@ -44,12 +58,20 @@ object ClampSanitizerDiscovery {
     val key         = (method.fullName, fingerprint)
     ensureSidecarLoaded(config.clampSanitizerDecisionCachePath)
 
-    val cachedDecisionOpt = decisionCache.get(key).orElse(sidecarCache.get(key).map(_.isSanitizer))
+    val inMemoryDecisionOpt = decisionCache.get(key)
+    val sidecarDecisionOpt  = sidecarCache.get(key).map(_.isSanitizer)
+    val cachedDecisionOpt   = inMemoryDecisionOpt.orElse(sidecarDecisionOpt)
     cachedDecisionOpt match {
       case Some(cachedDecision) =>
         QueryEngineStatistics.incrementBy(CLAMP_DISCOVERY_CACHE_HITS, 1L)
         decisionCache.update(key, cachedDecision)
-        if (cachedDecision) Some(FlowSemantic.from(method.fullName, List.empty)) else None
+        val cacheReasonPrefix = if (inMemoryDecisionOpt.nonEmpty) "cache_hit_memory" else "cache_hit_sidecar"
+        val cacheReasonSuffix = if (cachedDecision) "true" else "false"
+        ClampDiscoveryDecisionResult(
+          predictedSanitizer = Some(cachedDecision),
+          reason = s"${cacheReasonPrefix}_$cacheReasonSuffix",
+          semantic = if (cachedDecision) Some(FlowSemantic.from(method.fullName, List.empty)) else None
+        )
       case None =>
         val isSanitizer = BufferOverflowSanitizerValidator.isValidatedSanitizer(method)
         decisionCache.update(key, isSanitizer)
@@ -64,7 +86,11 @@ object ClampSanitizerDiscovery {
           isSanitizer,
           config.clampSanitizerDecisionCachePath
         )
-        if (isSanitizer) Some(FlowSemantic.from(method.fullName, List.empty)) else None
+        ClampDiscoveryDecisionResult(
+          predictedSanitizer = Some(isSanitizer),
+          reason = if (isSanitizer) "discovery_validated" else "discovery_rejected",
+          semantic = if (isSanitizer) Some(FlowSemantic.from(method.fullName, List.empty)) else None
+        )
     }
   }
 

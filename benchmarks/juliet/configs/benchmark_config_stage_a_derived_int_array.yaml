@@ -1,0 +1,58 @@
+# Stage-A derived clamp dataset benchmark config.
+# Uses transformed sources under outputs/derived/A with int_array_index flow mode.
+
+juliet_root: /Users/saqif/Downloads/C
+
+tools:
+  joern: ./joern
+  joern_parse: ./joern-parse
+  run_script: benchmarks/juliet/scripts/run_bof_workflow.sc
+
+paths:
+  manifests_root: benchmarks/juliet/manifests
+  staged_root: benchmarks/juliet/outputs/staged
+  cache_root: benchmarks/juliet/outputs/cache
+  findings_root: benchmarks/juliet/outputs/findings
+  logs_root: benchmarks/juliet/outputs/logs
+  score_root: benchmarks/juliet/outputs/scored
+  summary_root: benchmarks/juliet/outputs/summary
+
+options:
+  force: false
+  parallelism: 1
+
+stages:
+  - A
+
+configs:
+  master:
+    alias: baseline_current_binary
+    modeled_policy: ENFORCE
+    discovery_enabled: false
+    flow_mode: int_array_index_clamp_io
+    stage_dir: benchmarks/juliet/outputs/derived/A
+    stage_manifest: benchmarks/juliet/manifests/stage_a_derived_cases.json
+  branch_enforce_discovery_off:
+    modeled_policy: ENFORCE
+    discovery_enabled: false
+    flow_mode: int_array_index_clamp_io
+    stage_dir: benchmarks/juliet/outputs/derived/A
+    stage_manifest: benchmarks/juliet/manifests/stage_a_derived_cases.json
+  branch_enforce_discovery_on:
+    modeled_policy: ENFORCE
+    discovery_enabled: true
+    flow_mode: int_array_index_clamp_io
+    stage_dir: benchmarks/juliet/outputs/derived/A
+    stage_manifest: benchmarks/juliet/manifests/stage_a_derived_cases.json
+  branch_warn_discovery_off:
+    modeled_policy: WARN
+    discovery_enabled: false
+    flow_mode: int_array_index_clamp_io
+    stage_dir: benchmarks/juliet/outputs/derived/A
+    stage_manifest: benchmarks/juliet/manifests/stage_a_derived_cases.json
+  branch_trust_discovery_off:
+    modeled_policy: TRUST
+    discovery_enabled: false
+    flow_mode: int_array_index_clamp_io
+    stage_dir: benchmarks/juliet/outputs/derived/A
+    stage_manifest: benchmarks/juliet/manifests/stage_a_derived_cases.json

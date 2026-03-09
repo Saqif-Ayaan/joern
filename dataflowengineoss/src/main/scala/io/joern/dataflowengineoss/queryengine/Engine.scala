@@ -190,6 +190,12 @@ object Engine {
 
   private val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
+  private case class ModeledSemanticAdjustment(
+    semantic: Option[FlowSemantic],
+    predictedSanitizer: Option[Boolean],
+    reason: String
+  )
+
   /** Traverse from a node to incoming DDG nodes, taking into account semantics. This method is exposed via the `ddgIn`
     * step, but is also called by the engine internally by the `TaskSolver`.
     *
@@ -307,13 +313,44 @@ object Engine {
   ): List[FlowSemantic] = {
     val calledMethods = Engine.methodsForCall(call)
     val explicitSemantics = calledMethods.flatMap { method =>
-      semantics.forMethod(method).flatMap(semantic => adjustedSemanticForMethod(semantic, method, config))
+      semantics.forMethod(method).flatMap { semantic =>
+        val adjustment = adjustedSemanticForMethod(semantic, method, config)
+        recordSanitizerDecision(
+          call,
+          method,
+          decisionSource = "modeled",
+          predictedSanitizer = adjustment.predictedSanitizer,
+          reason = adjustment.reason
+        )
+        adjustment.semantic
+      }
     }
 
-    if (explicitSemantics.nonEmpty || !config.enableClampSanitizerAutoDiscovery) {
+    if (explicitSemantics.nonEmpty) {
+      explicitSemantics
+    } else if (!config.enableClampSanitizerAutoDiscovery) {
+      calledMethods.foreach { method =>
+        recordSanitizerDecision(
+          call,
+          method,
+          decisionSource = "discovered",
+          predictedSanitizer = None,
+          reason = "discovery_disabled"
+        )
+      }
       explicitSemantics
     } else {
-      calledMethods.flatMap(method => ClampSanitizerDiscovery.semanticForUnmodeledMethod(method, config))
+      calledMethods.flatMap { method =>
+        val discoveryDecision = ClampSanitizerDiscovery.decisionForUnmodeledMethod(method, config)
+        recordSanitizerDecision(
+          call,
+          method,
+          decisionSource = "discovered",
+          predictedSanitizer = discoveryDecision.predictedSanitizer,
+          reason = discoveryDecision.reason
+        )
+        discoveryDecision.semantic
+      }
     }
   }
 
@@ -324,14 +361,14 @@ object Engine {
     semantic: FlowSemantic,
     method: Method,
     config: EngineConfig
-  ): Option[FlowSemantic] = {
+  ): ModeledSemanticAdjustment = {
     val isSanitizerSemantic = semantic.mappings.isEmpty
     if (!isSanitizerSemantic) {
-      Some(semantic)
+      ModeledSemanticAdjustment(Some(semantic), None, reason = "modeled_non_sanitizer_semantic")
     } else {
       config.modeledSanitizerValidationPolicy match {
         case ModeledSanitizerValidationPolicy.TRUST =>
-          Some(semantic)
+          ModeledSemanticAdjustment(Some(semantic), Some(true), reason = "modeled_trust")
         case ModeledSanitizerValidationPolicy.WARN =>
           val validated = BufferOverflowSanitizerValidator.isValidatedSanitizer(method)
           if (!validated) {
@@ -340,15 +377,44 @@ object Engine {
               s"Modeled sanitizer `${method.fullName}` failed validation, but sanitizer semantics are kept due WARN policy."
             )
           }
-          Some(semantic)
+          val reason = if (validated) "modeled_warn_validated" else "modeled_warn_unvalidated"
+          ModeledSemanticAdjustment(Some(semantic), Some(true), reason = reason)
         case ModeledSanitizerValidationPolicy.ENFORCE =>
           if (BufferOverflowSanitizerValidator.isValidatedSanitizer(method)) {
-            Some(semantic)
+            ModeledSemanticAdjustment(Some(semantic), Some(true), reason = "modeled_enforce_validated")
           } else {
             // If a modeled sanitizer fails validation, fall back to conservative taint propagation arg1 -> return.
-            Some(FlowSemantic.from(method.fullName, List((1, -1))))
+            ModeledSemanticAdjustment(
+              Some(FlowSemantic.from(method.fullName, List((1, -1)))),
+              Some(false),
+              reason = "modeled_enforce_fail"
+            )
           }
       }
+    }
+  }
+
+  private def recordSanitizerDecision(
+    call: Call,
+    method: Method,
+    decisionSource: String,
+    predictedSanitizer: Option[Boolean],
+    reason: String
+  )(implicit config: EngineConfig): Unit = {
+    config.sanitizerDecisionRecorder.foreach { recorder =>
+      val loc = call.location
+      recorder(
+        SanitizerDecisionEvent(
+          callsiteFile = loc.filename,
+          callsiteLine = loc.lineNumber.getOrElse(-1),
+          callerFunction = loc.methodShortName,
+          calleeMethodFullName = method.fullName,
+          calleeMethodName = method.name,
+          decisionSource = decisionSource,
+          predictedSanitizer = predictedSanitizer,
+          reason = reason
+        )
+      )
     }
   }
 
@@ -389,7 +455,19 @@ case class EngineConfig(
   maxOutputArgsExpansion: Int = 1000,
   enableClampSanitizerAutoDiscovery: Boolean = false,
   clampSanitizerDecisionCachePath: Option[String] = None,
-  modeledSanitizerValidationPolicy: ModeledSanitizerValidationPolicy = ModeledSanitizerValidationPolicy.ENFORCE
+  modeledSanitizerValidationPolicy: ModeledSanitizerValidationPolicy = ModeledSanitizerValidationPolicy.ENFORCE,
+  sanitizerDecisionRecorder: Option[SanitizerDecisionEvent => Unit] = None
+)
+
+case class SanitizerDecisionEvent(
+  callsiteFile: String,
+  callsiteLine: Int,
+  callerFunction: String,
+  calleeMethodFullName: String,
+  calleeMethodName: String,
+  decisionSource: String,
+  predictedSanitizer: Option[Boolean],
+  reason: String
 )
 
 enum ModeledSanitizerValidationPolicy {

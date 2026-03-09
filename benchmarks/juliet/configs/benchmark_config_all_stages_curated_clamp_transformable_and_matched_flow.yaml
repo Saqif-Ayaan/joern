@@ -1,0 +1,60 @@
+# All-stages (A/B/C) config for curated 73-file subset:
+# clamp-transformable AND matched-flow.
+
+juliet_root: /Users/saqif/Downloads/C
+
+tools:
+  joern: ./joern
+  joern_parse: ./joern-parse
+  run_script: benchmarks/juliet/scripts/run_bof_workflow.sc
+
+paths:
+  manifests_root: benchmarks/juliet/manifests/curated_allstage_clamp_transformable_and_matched_flow
+  staged_root: benchmarks/juliet/outputs/staged
+  cache_root: benchmarks/juliet/outputs/cache
+  findings_root: benchmarks/juliet/outputs/findings/clamp_subset_73
+  logs_root: benchmarks/juliet/outputs/logs/clamp_subset_73
+  score_root: benchmarks/juliet/outputs/scored
+  summary_root: benchmarks/juliet/outputs/summary
+
+options:
+  force: false
+  parallelism: 1
+
+stages:
+  - A
+  - B
+  - C
+
+configs:
+  master:
+    alias: baseline_current_binary
+    modeled_policy: ENFORCE
+    discovery_enabled: false
+    flow_mode: int_array_index_clamp_io
+    input_root: benchmarks/juliet/outputs/curated/all_stages/clamp_transformable_and_matched_flow
+  branch_enforce_discovery_off:
+    modeled_policy: ENFORCE
+    discovery_enabled: false
+    flow_mode: int_array_index_clamp_io
+    input_root: benchmarks/juliet/outputs/curated/all_stages/clamp_transformable_and_matched_flow
+  branch_enforce_discovery_on:
+    modeled_policy: ENFORCE
+    discovery_enabled: true
+    flow_mode: int_array_index_clamp_io
+    input_root: benchmarks/juliet/outputs/curated/all_stages/clamp_transformable_and_matched_flow
+  branch_warn_discovery_off:
+    modeled_policy: WARN
+    discovery_enabled: false
+    flow_mode: int_array_index_clamp_io
+    input_root: benchmarks/juliet/outputs/curated/all_stages/clamp_transformable_and_matched_flow
+  branch_trust_discovery_off:
+    modeled_policy: TRUST
+    discovery_enabled: false
+    flow_mode: int_array_index_clamp_io
+    input_root: benchmarks/juliet/outputs/curated/all_stages/clamp_transformable_and_matched_flow
+  branch_trust_discovery_on:
+    modeled_policy: TRUST
+    discovery_enabled: true
+    flow_mode: int_array_index_clamp_io
+    input_root: benchmarks/juliet/outputs/curated/all_stages/clamp_transformable_and_matched_flow
